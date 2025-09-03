@@ -1,7 +1,6 @@
 return {
     {
         "liuchengxu/vim-clap",
-        lazy = false,
         build = ":Clap install-binary",   -- builds the Rust binary after install
         config = function()
             vim.keymap.set("n", "<Leader>F", ":Clap gfiles<CR>", { silent = true })

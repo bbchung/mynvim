@@ -2,7 +2,7 @@ return {
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        ensure_installed = { "c", "cpp", "python", "lua" }, -- languages you want
+        ensure_installed = { "c", "cpp", "python", "lua", "vimdoc", "bash" }, -- languages you want
         highlight = {
             enable = true,              -- false will disable the whole extension
             additional_vim_regex_highlighting = false,

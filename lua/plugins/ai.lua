@@ -1,9 +1,10 @@
 return {
     {
         "Exafunction/windsurf.vim",
-        config = function()
-            -- Disable default Tab mapping
+        init = function()
             vim.g.codeium_no_map_tab = true
+        end,
+        config = function()
 
             vim.keymap.set("i", "<C-p>", function()
                 return vim.fn["codeium#Accept"]()

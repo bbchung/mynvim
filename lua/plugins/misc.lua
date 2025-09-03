@@ -1,7 +1,10 @@
 return {
     {
         'bbchung/gtags.vim',
-        event = "InsertEnter",
+        lazy = false,
+        init = function ()
+            vim.g.Gtags_Auto_Update = 1
+        end,
         config = function ()
             -- Escape special characters for Gtags
             function _G.GtagsEscape(pattern)
@@ -9,8 +12,6 @@ return {
                 return pattern:gsub("[.*+?^$()|&;!#%%\\%[%] ]", "\\%1")
             end
 
-            -- Auto-update Gtags
-            vim.g.Gtags_Auto_Update = 1
 
             -- Normal mode mappings
             vim.keymap.set("n", "<Leader>s", ":GtagsCursor<CR>", { silent = true })
@@ -38,6 +39,12 @@ return {
                 vim.cmd(cmd)
                 vim.cmd("copen")
             end, { silent = true })
+
+            vim.api.nvim_create_autocmd("VimEnter", {
+                callback = function()
+                    vim.fn.system("global -qu")
+                end,
+            })
         end
     }
 }

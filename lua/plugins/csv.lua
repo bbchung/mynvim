@@ -1,9 +1,11 @@
 return {
     {
         'chrisbra/csv.vim',
+        init = function ()
+            vim.g.no_csv_maps = 1
+        end,
         config = function ()
             -- CSV plugin settings
-            vim.g.no_csv_maps = 1
             vim.g.csv_no_progress = 1
 
             -- Start and end variables
