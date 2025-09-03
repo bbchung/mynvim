@@ -1,0 +1,67 @@
+{
+    "coc.preferences.promptInput": true,
+    "coc.preferences.useQuickfixForLocations": true,
+    "workspace.openResourceCommand": "",
+    "workspace.bottomUpFiletypes": [
+        "python"
+    ],
+    "inlayHint.enable": false,
+    "semanticTokens.enable": true,
+    "codeLens.enable": true,
+    "outline.showLineNumber": false,
+    "diagnostic.hintSign": "",
+    "diagnostic.warningSign": "",
+    "diagnostic.errorSign": "✘",
+    "diagnostic.level": "information",
+    "suggest.noselect": true,
+    "suggest.enablePreselect": false,
+    "suggest.virtualText": true,
+    "snippets.snipmate.enable": true,
+    "snippets.ultisnips.pythonPrompt": false,
+    "snippets.extends": {
+        "cpp": [
+            "c"
+        ],
+        "javascriptreact": [
+            "javascript"
+        ],
+        "typescript": [
+            "javascript"
+        ]
+    },
+    "yaml.format.enable": true,
+    "clangd.arguments": [
+        "--query-driver=/usr/bin/clang++",
+        "--background-index",
+        "--pch-storage=memory",
+        "--clang-tidy"
+    ],
+    "clangd.fallbackFlags": [
+        "-std=c++23"
+    ],
+    "sh.enable": true,
+    "pyright.organizeimports.provider": "ruff",
+    "python.pythonPath": "/usr/bin/python3",
+    "python.linting.ruffEnabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.provider": "ruff",
+    "python.formatting.autopep8Path": "/usr/local/bin/autopep8",
+    "python.formatting.autopep8Args": [
+        "-aa",
+        "--experimental"
+    ],
+    "languageserver": {
+        "cmake": {
+            "command": "cmake-language-server",
+            "filetypes": [
+                "cmake"
+            ],
+            "rootPatterns": [
+                "build/"
+            ],
+            "initializationOptions": {
+                "buildDirectory": "build"
+            }
+        }
+    }
+}
