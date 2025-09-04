@@ -24,6 +24,8 @@ return {
                 cmd = { "clangd", "--background-index", "--query-driver=/usr/bin/clang++", "--pch-storage=memory", "--clang-tidy" },
             })
             vim.lsp.enable("clangd")
+            vim.lsp.enable("pyright")
+            vim.lsp.enable("ruff")
             vim.lsp.enable("r_language_server")
             vim.lsp.config("lua_ls", {
                 settings = {
