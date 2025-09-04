@@ -12,7 +12,6 @@ return {
                 "markdown",
                 "python",
                 "vim",
-                "yaml",
             },
 
             -- Install parsers synchronously (only applied to `ensure_installed`)
