@@ -58,7 +58,17 @@ return {
                 },
                 sections = {
                     lualine_a = { 'mode' },
-                    lualine_b = { 'branch', 'diff', 'diagnostics' },
+                    lualine_b = { 'branch', 'diff', { 'diagnostics',
+                        sources = { 'nvim_diagnostic' },
+                        symbols = {
+                            error = ' ',
+                            warn  = ' ',
+                            info  = ' ',
+                            hint  = ' ',
+                        },
+                        colored = true,         -- Use highlight groups
+                    }
+                    },
                     lualine_c = { { 'filename', path = 1 } },
                     lualine_x = { 'encoding', 'fileformat', 'filetype' },
                     lualine_y = { 'progress' },

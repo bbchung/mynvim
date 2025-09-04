@@ -37,7 +37,6 @@ vim.opt.undodir = undo_dir
 vim.api.nvim_create_autocmd("BufReadPost", {
     pattern = "*",
     callback = function()
-        local ft = vim.bo.filetype
         local mark = vim.api.nvim_buf_get_mark(0, '"') -- last cursor position
         local lcount = vim.api.nvim_buf_line_count(0)
         if mark[1] >= 1 and mark[1] <= lcount then
@@ -46,17 +45,16 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end,
 })
 
--- Lua 設定
-vim.fn.sign_define("DiagnosticSignError", { text = "✗", texthl = "DiagnosticSignError" })
-vim.fn.sign_define("DiagnosticSignWarn", { text = "⚠", texthl = "DiagnosticSignWarn" })
-vim.fn.sign_define("DiagnosticSignInfo", { text = "ℹ", texthl = "DiagnosticSignInfo" })
-vim.fn.sign_define("DiagnosticSignHint", { text = "➤", texthl = "DiagnosticSignHint" })
-
-
--- LSP diagnostics config
 vim.diagnostic.config({
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = '',
+            [vim.diagnostic.severity.WARN]  = '',
+            [vim.diagnostic.severity.INFO]  = '',
+            [vim.diagnostic.severity.HINT]  = '',
+        },
+    },
     virtual_text = true,
-    signs = true,
     underline = true,
     update_in_insert = false,
     severity_sort = true,
