@@ -62,6 +62,27 @@ return {
             lspconfig.r_language_server.setup({
                 cmd = { "R", "--slave", "-e", "languageserver::run()" },
             })
+            lspconfig.lua_ls.setup({
+                capabilities = capabilities,
+                cmd = { "lua-language-server" }, -- system-installed
+                settings = {
+                    Lua = {
+                        runtime = {
+                            version = "LuaJIT",                  -- Neovim uses LuaJIT
+                            path = vim.split(package.path, ";"), -- Lua modules path
+                        },
+                        diagnostics = {
+                            globals = { "vim" }, -- avoid "vim is undefined"
+                        },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true), -- Neovim runtime API
+                        },
+                        telemetry = {
+                            enable = false, -- disable telemetry
+                        },
+                    }
+                }
+            })
         end
     }
 }

@@ -62,4 +62,12 @@ vim.diagnostic.config({
 
 require("config.lazy")
 
+-- Automatically enter insert mode when opening a terminal
+vim.api.nvim_create_autocmd("TermOpen", {
+    pattern = "*",
+    callback = function()
+        vim.cmd("startinsert")
+    end,
+})
+
 vim.cmd.colorscheme("everforest")
