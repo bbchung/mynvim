@@ -1,16 +1,16 @@
 return {
     {
         'chrisbra/csv.vim',
-        init = function ()
+        init = function()
             vim.g.no_csv_maps = 1
         end,
-        config = function ()
+        config = function()
             -- CSV plugin settings
             vim.g.csv_no_progress = 1
 
             -- Start and end variables
             vim.g.start = 1
-            vim.g["end"] = 10   -- 'end' is a Lua keyword, so use string indexing
+            vim.g["end"] = 10 -- 'end' is a Lua keyword, so use string indexing
             -- Define the formatting function
             function _G.CsvFormat()
                 vim.cmd("'<,'>ArrangeColumn")
@@ -24,7 +24,6 @@ return {
                     vim.opt_local.formatexpr = "v:lua.CsvFormat()"
                 end,
             })
-
         end
     }
 }

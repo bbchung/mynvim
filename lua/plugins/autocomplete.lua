@@ -11,17 +11,21 @@ return {
         },
         config = function()
             local cmp = require("cmp")
+            local luasnip = require("luasnip")
 
             cmp.setup({
                 snippet = {
                     expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
+                        luasnip.lsp_expand(args.body)
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
-                    ["<C-y>"] = cmp.mapping(function(fallback)
-                        luasnip.expand_or_jump()
+                    ["<C-u>"] = cmp.mapping(function(fallback)
+                        luasnip.expand()
                     end, { "i", "s" }),
+                    ["<C-Space>"] = cmp.mapping.complete(),       -- Ctrl+Space 觸發補全
+                    ["<Tab>"] = cmp.mapping.select_next_item(),   -- Tab 選下個
+                    ["<S-Tab>"] = cmp.mapping.select_prev_item(), -- Shift+Tab 選上個
                 }),
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },

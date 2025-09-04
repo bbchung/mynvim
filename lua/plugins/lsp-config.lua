@@ -2,13 +2,36 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
+            local buf_map = function(mode, lhs, rhs, opts)
+                opts = opts or { silent = true }
+                vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+            end
+            -- 常用 LSP 快捷鍵
+            buf_map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
+            buf_map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
+            buf_map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
+            buf_map("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")
+            vim.keymap.set("n", "<Leader>k", function()
+                vim.lsp.buf.format({ async = true })
+            end, { noremap = true, silent = true })
+            -- Format selected range
+            vim.keymap.set("v", "<leader>k", function()
+                vim.lsp.buf.format({
+                    async = true,
+                    range = {
+                        start = vim.fn.getpos("'<")[2] - 1, -- line numbers are 0-indexed
+                        ["end"] = vim.fn.getpos("'>")[2]
+                    }
+                })
+            end, { noremap = true, silent = true })
+
+
             local lspconfig = require("lspconfig")
             local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
             -- capabilities for nvim-cmp
             local capabilities = cmp_nvim_lsp.default_capabilities()
 
-            -- clangd setup
             lspconfig.clangd.setup({
                 capabilities = capabilities,
                 cmd = { "clangd", "--background-index", "--query-driver=/usr/bin/clang++", "--pch-storage=memory", "--clang-tidy" },
@@ -20,16 +43,33 @@ return {
                 filetypes = { "python" },
                 root_dir = lspconfig.util.root_pattern(".pylintrc"),
             })
-
-            local buf_map = function(mode, lhs, rhs, opts)
-                opts = opts or { silent = true }
-                vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
-            end
-            -- 常用 LSP 快捷鍵
-            buf_map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-            buf_map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-            buf_map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
-            buf_map("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")
+            lspconfig.lua_ls.setup({
+                capabilities = capabilities,
+                cmd = { "lua-language-server" }, -- system-installed
+                settings = {
+                    Lua = {
+                        runtime = {
+                            version = "LuaJIT",                  -- Neovim uses LuaJIT
+                            path = vim.split(package.path, ";"), -- Lua modules path
+                        },
+                        diagnostics = {
+                            globals = { "vim" }, -- avoid "vim is undefined"
+                        },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true), -- Neovim runtime API
+                        },
+                        telemetry = {
+                            enable = false, -- disable telemetry
+                        },
+                    }
+                }
+            })
+            lspconfig.bashls.setup({
+                capabilities = capabilities,
+                cmd = { "bash-language-server", "start" },           -- executable + start argument
+                filetypes = { "sh", "bash" },                        -- filetypes to attach to
+                root_dir = lspconfig.util.root_pattern(".git", "~"), -- project root
+            })
         end
     }
 }

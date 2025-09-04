@@ -38,7 +38,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     pattern = "*",
     callback = function()
         local ft = vim.bo.filetype
-        local mark = vim.api.nvim_buf_get_mark(0, '"')  -- last cursor position
+        local mark = vim.api.nvim_buf_get_mark(0, '"') -- last cursor position
         local lcount = vim.api.nvim_buf_line_count(0)
         if mark[1] >= 1 and mark[1] <= lcount then
             vim.cmd([[normal! g`"]])
@@ -47,10 +47,10 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 -- Lua 設定
-vim.fn.sign_define("DiagnosticSignError", {text = "✗", texthl = "DiagnosticSignError"})
-vim.fn.sign_define("DiagnosticSignWarn",  {text = "⚠", texthl = "DiagnosticSignWarn"})
-vim.fn.sign_define("DiagnosticSignInfo",  {text = "ℹ", texthl = "DiagnosticSignInfo"})
-vim.fn.sign_define("DiagnosticSignHint",  {text = "➤", texthl = "DiagnosticSignHint"})
+vim.fn.sign_define("DiagnosticSignError", { text = "✗", texthl = "DiagnosticSignError" })
+vim.fn.sign_define("DiagnosticSignWarn", { text = "⚠", texthl = "DiagnosticSignWarn" })
+vim.fn.sign_define("DiagnosticSignInfo", { text = "ℹ", texthl = "DiagnosticSignInfo" })
+vim.fn.sign_define("DiagnosticSignHint", { text = "➤", texthl = "DiagnosticSignHint" })
 
 
 -- LSP diagnostics config
@@ -65,4 +65,3 @@ vim.diagnostic.config({
 require("config.lazy")
 
 vim.cmd.colorscheme("everforest")
-

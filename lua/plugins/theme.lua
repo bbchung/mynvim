@@ -1,12 +1,12 @@
 return {
     {
         "folke/tokyonight.nvim",
-        lazy = false, -- make sure we load this during startup if it is your main colorscheme
+        lazy = false,    -- make sure we load this during startup if it is your main colorscheme
         priority = 1000, -- make sure to load this before all the other start plugins
     },
     {
         "sainnhe/everforest",
-        lazy = false, -- make sure we load this during startup if it is your main colorscheme
+        lazy = false,    -- make sure we load this during startup if it is your main colorscheme
         priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
             vim.g.everforest_background = 'medium'
@@ -27,8 +27,8 @@ return {
                 options = {
                     icons_enabled = false,
                     theme = 'auto',
-                    component_separators = { left = '', right = ''},
-                    section_separators = { left = '', right = ''},
+                    component_separators = { left = '', right = '' },
+                    section_separators = { left = '', right = '' },
                     disabled_filetypes = {
                         statusline = {},
                         winbar = {},
@@ -57,18 +57,18 @@ return {
                     }
                 },
                 sections = {
-                    lualine_a = {'mode'},
-                    lualine_b = {'branch', 'diff', 'diagnostics'},
-                    lualine_c = {'filename'},
-                    lualine_x = {'encoding', 'fileformat', 'filetype'},
-                    lualine_y = {'progress'},
-                    lualine_z = {'location'}
+                    lualine_a = { 'mode' },
+                    lualine_b = { 'branch', 'diff', 'diagnostics' },
+                    lualine_c = { 'filename' },
+                    lualine_x = { 'encoding', 'fileformat', 'filetype' },
+                    lualine_y = { 'progress' },
+                    lualine_z = { 'location' }
                 },
                 inactive_sections = {
                     lualine_a = {},
                     lualine_b = {},
-                    lualine_c = {'filename'},
-                    lualine_x = {'location'},
+                    lualine_c = { 'filename' },
+                    lualine_x = { 'location' },
                     lualine_y = {},
                     lualine_z = {}
                 },
@@ -81,7 +81,7 @@ return {
     },
     {
         "mhinz/vim-startify",
-        config = function ()
+        config = function()
             -- Startify settings
             vim.g.startify_session_persistence = 1
             vim.g.startify_change_to_dir = 0

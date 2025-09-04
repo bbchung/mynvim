@@ -2,16 +2,15 @@ return {
     {
         'bbchung/gtags.vim',
         lazy = false,
-        init = function ()
+        init = function()
             vim.g.Gtags_Auto_Update = 1
         end,
-        config = function ()
+        config = function()
             -- Escape special characters for Gtags
             function _G.GtagsEscape(pattern)
                 -- equivalent of Vim's substitute(pattern, '\v[.*+?^$()|&;!#%\\\[\] ]', '\\&', 'g')
                 return pattern:gsub("[.*+?^$()|&;!#%%\\%[%] ]", "\\%1")
             end
-
 
             -- Normal mode mappings
             vim.keymap.set("n", "<Leader>s", ":GtagsCursor<CR>", { silent = true })
