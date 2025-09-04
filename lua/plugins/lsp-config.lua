@@ -59,32 +59,8 @@ return {
                 filetypes = { "python" },
                 root_dir = lspconfig.util.root_pattern(".pylintrc"),
             })
-            lspconfig.lua_ls.setup({
-                capabilities = capabilities,
-                cmd = { "lua-language-server" }, -- system-installed
-                settings = {
-                    Lua = {
-                        runtime = {
-                            version = "LuaJIT",                  -- Neovim uses LuaJIT
-                            path = vim.split(package.path, ";"), -- Lua modules path
-                        },
-                        diagnostics = {
-                            globals = { "vim" }, -- avoid "vim is undefined"
-                        },
-                        workspace = {
-                            library = vim.api.nvim_get_runtime_file("", true), -- Neovim runtime API
-                        },
-                        telemetry = {
-                            enable = false, -- disable telemetry
-                        },
-                    }
-                }
-            })
-            lspconfig.bashls.setup({
-                capabilities = capabilities,
-                cmd = { "bash-language-server", "start" },           -- executable + start argument
-                filetypes = { "sh", "bash" },                        -- filetypes to attach to
-                root_dir = lspconfig.util.root_pattern(".git", "~"), -- project root
+            lspconfig.r_language_server.setup({
+                cmd = { "R", "--slave", "-e", "languageserver::run()" },
             })
         end
     }
