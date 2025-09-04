@@ -7,7 +7,6 @@ return {
             vim.keymap.set("n", "<Leader>f", ":Clap files --name-only<CR>", { silent = true })
             vim.keymap.set("n", "<Leader>b", ":Clap buffers<CR>", { silent = true })
 
-            -- Settings (vim.g for g: variables)
             vim.g.clap_open_preview = "never"
             -- vim.g.clap_layout = { relative = "editor" } -- commented out
             vim.g.clap_popup_input_delay = 0

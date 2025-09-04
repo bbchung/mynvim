@@ -8,7 +8,6 @@ return {
         config = function()
             -- Escape special characters for Gtags
             function _G.GtagsEscape(pattern)
-                -- equivalent of Vim's substitute(pattern, '\v[.*+?^$()|&;!#%\\\[\] ]', '\\&', 'g')
                 return pattern:gsub("[.*+?^$()|&;!#%%\\%[%] ]", "\\%1")
             end
 
@@ -18,12 +17,9 @@ return {
             vim.keymap.set("n", "<Leader>g", function()
                 -- clear quickfix list
                 vim.fn.setqflist({})
-                -- get current word and escape it
                 local word = vim.fn.expand("<cword>")
                 local cmd = string.format("Gtags -g %s", _G.GtagsEscape(word))
-                -- execute the command
                 vim.cmd(cmd)
-                -- open quickfix
                 vim.cmd("copen")
             end, { silent = true })
 

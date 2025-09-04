@@ -23,7 +23,6 @@ return {
                     ["<C-u>"] = cmp.mapping(function(fallback)
                         luasnip.expand()
                     end, { "i", "s" }),
-                    ["<C-Space>"] = cmp.mapping.complete(),       -- Ctrl+Space 觸發補全
                     ["<Tab>"] = cmp.mapping.select_next_item(),   -- Tab 選下個
                     ["<S-Tab>"] = cmp.mapping.select_prev_item(), -- Shift+Tab 選上個
                 }),

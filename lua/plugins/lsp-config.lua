@@ -2,14 +2,10 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
-            local buf_map = function(mode, lhs, rhs, opts)
-                opts = opts or { silent = true }
-                vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
-            end
-            buf_map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-            buf_map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-            buf_map("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>")
-            buf_map("n", "<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+            vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true })
+            vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { silent = true })
+            vim.api.nvim_set_keymap("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>", { silent = true })
+            vim.api.nvim_set_keymap("n", "<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", { silent = true })
             vim.keymap.set("n", "<Leader>k", function()
                 vim.lsp.buf.format({ async = true })
             end, { noremap = true, silent = true })
@@ -60,6 +56,7 @@ return {
                 root_dir = lspconfig.util.root_pattern(".pylintrc"),
             })
             lspconfig.r_language_server.setup({
+                capabilities = capabilities,
                 cmd = { "R", "--slave", "-e", "languageserver::run()" },
             })
             lspconfig.lua_ls.setup({
