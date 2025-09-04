@@ -20,79 +20,64 @@ return {
         end,
     },
     {
-        "itchyny/vim-gitbranch",
-    },
-    {
-        "itchyny/lightline.vim",
+        "nvim-lualine/lualine.nvim",
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
-            vim.api.nvim_create_autocmd({"User"}, {
-                pattern = {"CocStatusChange", "CocDiagnosticChange"},
-                callback = function()
-                    vim.cmd("redrawstatus")
-                end,
-            })
-
-            -- Function equivalent to g:LightlineFugitive
-            function _G.LightlineFugitive()
-                local branch = vim.fn['gitbranch#name']()
-                if branch ~= "" then
-                    return "" .. branch
-                else
-                    return ""
-                end
-            end
-
-            -- Lightline configuration
-            vim.g.lightline = {
-                colorscheme = "everforest",
-                active = {
-                    left = {
-                        {"mode", "paste", "readonly"},
-                        {"gitbranch"},
-                        {"relativepath"},
-                        {"modified"},
+            require('lualine').setup {
+                options = {
+                    icons_enabled = false,
+                    theme = 'auto',
+                    component_separators = { left = '', right = ''},
+                    section_separators = { left = '', right = ''},
+                    disabled_filetypes = {
+                        statusline = {},
+                        winbar = {},
                     },
-                    right = {
-                        {"filetype"},
-                        {"fileformat", "fileencoding"},
-                        {"percent", "lineinfo"},
-                        {"cocstatus", "codeium"},
-                    },
+                    ignore_focus = {},
+                    always_divide_middle = true,
+                    always_show_tabline = true,
+                    globalstatus = false,
+                    refresh = {
+                        statusline = 1000,
+                        tabline = 1000,
+                        winbar = 1000,
+                        refresh_time = 16, -- ~60fps
+                        events = {
+                            'WinEnter',
+                            'BufEnter',
+                            'BufWritePost',
+                            'SessionLoadPost',
+                            'FileChangedShellPost',
+                            'VimResized',
+                            'Filetype',
+                            'CursorMoved',
+                            'CursorMovedI',
+                            'ModeChanged',
+                        },
+                    }
                 },
-                inactive = {
-                    left = {
-                        {"mode", "paste", "readonly"},
-                        {"gitbranch"},
-                        {"relativepath"},
-                        {"modified"},
-                    },
-                    right = {
-                        {"filetype"},
-                        {"fileformat", "fileencoding"},
-                        {"percent", "lineinfo"},
-                        {"cocstatus"},
-                    },
+                sections = {
+                    lualine_a = {'mode'},
+                    lualine_b = {'branch', 'diff', 'diagnostics'},
+                    lualine_c = {'filename'},
+                    lualine_x = {'encoding', 'fileformat', 'filetype'},
+                    lualine_y = {'progress'},
+                    lualine_z = {'location'}
                 },
-                component = {
-                    paste = '%{&paste?"󰆒":""}',
-                    readonly = '%{&readonly?"":""}',
-                    relativepath = '%{expand("%:~:.")}',
+                inactive_sections = {
+                    lualine_a = {},
+                    lualine_b = {},
+                    lualine_c = {'filename'},
+                    lualine_x = {'location'},
+                    lualine_y = {},
+                    lualine_z = {}
                 },
-                component_function = {
-                    gitbranch = "LightlineFugitive",
-                    cocstatus = "coc#status",
-                    codeium = "codeium#GetStatusString",
-                },
-                separator = {
-                    left = "",
-                    right = "",
-                },
-                subseparator = {
-                    left = "|",
-                    right = "|",
-                },
+                tabline = {},
+                winbar = {},
+                inactive_winbar = {},
+                extensions = {}
             }
-        end,
+        end
     },
     {
         "mhinz/vim-startify",

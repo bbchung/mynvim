@@ -1,5 +1,6 @@
 vim.g.mapleader = "\\"
 vim.opt.number = true
+vim.opt.background = "dark"
 vim.opt.foldlevelstart = 99
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "number"
@@ -43,6 +44,22 @@ vim.api.nvim_create_autocmd("BufReadPost", {
             vim.cmd([[normal! g`"]])
         end
     end,
+})
+
+-- Lua 設定
+vim.fn.sign_define("DiagnosticSignError", {text = "✗", texthl = "DiagnosticSignError"})
+vim.fn.sign_define("DiagnosticSignWarn",  {text = "⚠", texthl = "DiagnosticSignWarn"})
+vim.fn.sign_define("DiagnosticSignInfo",  {text = "ℹ", texthl = "DiagnosticSignInfo"})
+vim.fn.sign_define("DiagnosticSignHint",  {text = "➤", texthl = "DiagnosticSignHint"})
+
+
+-- LSP diagnostics config
+vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
 })
 
 require("config.lazy")
