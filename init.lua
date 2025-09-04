@@ -1,5 +1,7 @@
 vim.g.mapleader = "\\"
 vim.opt.number = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 vim.opt.background = "dark"
 vim.opt.foldlevelstart = 99
 vim.opt.termguicolors = true
