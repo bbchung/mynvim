@@ -1,7 +1,6 @@
 return {
     {
         'bbchung/gtags.vim',
-        lazy = false,
         init = function()
             vim.g.Gtags_Auto_Update = 1
         end,
