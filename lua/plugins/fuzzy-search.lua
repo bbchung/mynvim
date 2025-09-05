@@ -16,8 +16,8 @@ return {
     },
     {
         "Yggdroot/LeaderF",
+        build = ":LeaderfInstallCExtension",
         config = function()
-            -- Wild ignore settings
             vim.g.Lf_WildIgnore = {
                 dir = { ".*", "build", "third_party", ".clangd", "fuxi.run*" },
                 file = { "*.sw?", "~$*", "*.bak", "*.exe", "*.o", "*.so", "*.py[co]" },

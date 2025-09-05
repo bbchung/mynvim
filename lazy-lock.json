@@ -9,6 +9,7 @@
   "coc.nvim": { "branch": "master", "commit": "020598749fc612c621f58cadea0638d25e5a90cd" },
   "csv.vim": { "branch": "master", "commit": "b8eb7f67babce96168e7f6b93b2ba8328b72a390" },
   "everforest": { "branch": "master", "commit": "28d59e29d972e21f2e802ce916f28dcab30697ae" },
+  "gruvbox-material": { "branch": "master", "commit": "6a100833060d26cd3ab85c34c5f7154a1000c12f" },
   "gtags.vim": { "branch": "master", "commit": "770fff04518b2c69a840226338e22844a3a9f4db" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
   "lualine.nvim": { "branch": "master", "commit": "b8c23159c0161f4b89196f74ee3a6d02cdc3a955" },

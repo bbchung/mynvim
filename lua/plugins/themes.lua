@@ -5,6 +5,17 @@ return {
         priority = 1000, -- make sure to load this before all the other start plugins
     },
     {
+        "sainnhe/gruvbox-material",
+        lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+        priority = 1000, -- make sure to load this before all the other start plugins
+        config = function()
+            vim.g.gruvbox_material_background = 'medium'
+            vim.g.gruvbox_material_enable_italic = 0
+            vim.g.gruvbox_material_disable_italic_comment = 1
+            vim.g.gruvbox_material_sign_column_background = 'none'
+        end,
+    },
+    {
         "sainnhe/everforest",
         lazy = false,    -- make sure we load this during startup if it is your main colorscheme
         priority = 1000, -- make sure to load this before all the other start plugins
@@ -66,7 +77,7 @@ return {
                             info  = ' ',
                             hint  = ' ',
                         },
-                        colored = true,         -- Use highlight groups
+                        colored = true, -- Use highlight groups
                     }
                     },
                     lualine_c = { { 'filename', path = 1 } },
