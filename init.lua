@@ -15,6 +15,7 @@ vim.opt.matchpairs:append("<:>")
 vim.opt.undofile = true
 vim.opt.undolevels = 1000
 vim.opt.undoreload = 10000
+vim.opt.wrap = false
 
 vim.keymap.set("i", "<C-c>", "<Esc>", { noremap = true, silent = true })
 vim.keymap.set("n", "<F3>", ":bd!<CR>", { silent = true })

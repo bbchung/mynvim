@@ -8,10 +8,10 @@ return {
                 "c",
                 "cpp",
                 "json",
+                "yaml",
                 "lua",
-                "markdown",
+                "lua",
                 "python",
-                "vim",
             },
 
             -- Install parsers synchronously (only applied to `ensure_installed`)
