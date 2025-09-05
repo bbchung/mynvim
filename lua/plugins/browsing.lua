@@ -2,7 +2,7 @@ return {
     {
         'bbchung/gtags.vim',
         init = function()
-            vim.g.Gtags_Auto_Update = 1
+            vim.g.Gtags_Auto_Update = 0
         end,
         config = function()
             -- Escape special characters for Gtags
@@ -34,9 +34,38 @@ return {
                 vim.cmd("copen")
             end, { silent = true })
 
-            vim.schedule(function()
-                vim.fn.system("global -qu")
-            end)
+            local current_job = nil
+            local queued_job = nil -- only keep the last queued request
+
+            local function run_async_singleton(cmd)
+                local function start_job()
+                    current_job = vim.fn.jobstart(cmd, {
+                        on_exit = function(_, _, _)
+                            current_job = nil
+                            if queued_job then
+                                local next_job = queued_job
+                                queued_job = nil
+                                next_job()
+                            end
+                        end,
+                    })
+                end
+
+                if current_job then
+                    queued_job = start_job
+                else
+                    start_job()
+                end
+            end
+
+            run_async_singleton({ "global", "-uv" })
+            vim.api.nvim_create_autocmd("BufWritePost", {
+                pattern = { "*.c", "*.cpp", "*.h", "*.hpp" },
+                callback = function()
+                    local bufname = vim.api.nvim_buf_get_name(0)
+                    run_async_singleton({ "global", "-u", "--single-update", bufname })
+                end,
+            })
         end
     },
     {
