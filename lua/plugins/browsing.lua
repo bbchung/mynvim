@@ -34,11 +34,9 @@ return {
                 vim.cmd("copen")
             end, { silent = true })
 
-            vim.api.nvim_create_autocmd("VimEnter", {
-                callback = function()
-                    vim.fn.system("global -qu")
-                end,
-            })
+            vim.schedule(function()
+                vim.fn.system("global -qu")
+            end)
         end
     },
     {

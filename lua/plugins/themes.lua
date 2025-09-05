@@ -1,10 +1,12 @@
 return {
     {
         "folke/tokyonight.nvim",
+        lazy = true,
         priority = 1000, -- make sure to load this before all the other start plugins
     },
     {
         "sainnhe/gruvbox-material",
+        lazy = true,
         priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
             vim.g.gruvbox_material_background = 'medium'
@@ -15,6 +17,7 @@ return {
     },
     {
         "sainnhe/everforest",
+        lazy = true,
         priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
             vim.g.everforest_background = 'medium'
@@ -99,6 +102,7 @@ return {
     },
     {
         "mhinz/vim-startify",
+        lazy = false,
         config = function()
             -- Startify settings
             vim.g.startify_session_persistence = 1
