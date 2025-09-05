@@ -32,7 +32,7 @@ return {
             vim.g.Lf_GtagsAutoUpdate = 0
             vim.g.Lf_GtagsStoreInProject = 0
             vim.g.Lf_DefaultExternalTool = "fd"
-            vim.g.Lf_UseVersionControlTool = 0
+            vim.g.Lf_UseVersionControlTool = 1
             vim.g.Lf_DefaultMode = "NameOnly"
             vim.g.Lf_WindowPosition = "popup"
             vim.g.Lf_PreviewInPopup = 0
