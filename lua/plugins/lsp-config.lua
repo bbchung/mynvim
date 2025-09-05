@@ -22,6 +22,7 @@ return {
 
             vim.lsp.config('clangd', {
                 cmd = { "clangd", "--background-index", "--query-driver=/usr/bin/clang++", "--pch-storage=memory", "--clang-tidy" },
+                vim.api.nvim_create_user_command("A", "LspClangdSwitchSourceHeader", {})
             })
             vim.lsp.enable("clangd")
             vim.lsp.enable("pyright")
