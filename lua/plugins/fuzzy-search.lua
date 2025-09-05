@@ -8,7 +8,7 @@ return {
             vim.keymap.set("n", "<Leader>f", ":Clap files --name-only<CR>", { silent = true })
             vim.keymap.set("n", "<Leader>b", ":Clap buffers<CR>", { silent = true })
 
-            vim.g.clap_open_preview = "always"
+            vim.g.clap_open_preview = "never"
             vim.g.clap_popup_input_delay = 0
             vim.g.clap_disable_run_rooter = true
             vim.g.clap_enable_icon = 0
@@ -17,6 +17,7 @@ return {
     {
         "Yggdroot/LeaderF",
         build = ":LeaderfInstallCExtension",
+        enabled = false,
         config = function()
             vim.g.Lf_WildIgnore = {
                 dir = { ".*", "build", "third_party", ".clangd", "fuxi.run*" },
@@ -59,6 +60,28 @@ return {
 
             -- Ripgrep config
             vim.g.Lf_RgConfig = { "--glob=!third_party/*" }
+        end
+    },
+    {
+        'nvim-telescope/telescope.nvim',
+        tag = '0.1.8',
+        dependencies = { { 'nvim-lua/plenary.nvim' }, { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' } },
+        config = function()
+            vim.keymap.set("n", "<Leader>F", ":Telescope git_files<CR>", { silent = true })
+            vim.keymap.set("n", "<Leader>f", ":Telescope find_files<CR>", { silent = true })
+            vim.keymap.set("n", "<Leader>b", ":Telescope buffers<CR>", { silent = true })
+            require('telescope').setup {
+                defaults = {
+                    preview = false,
+                    layout_config = {
+                        prompt_position = "top",
+                        width = 0.5,  -- 50% of screen width
+                        height = 0.6, -- 40% of screen height
+                    },
+                    sorting_strategy = "ascending"
+                },
+            }
+            require('telescope').load_extension('fzf')
         end
     }
 }
