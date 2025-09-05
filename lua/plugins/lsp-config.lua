@@ -2,7 +2,6 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
-            -- Inside your on_attach = function(client, bufnr) ... end
             vim.keymap.set({ 'n', 'v' }, '<leader>x', function()
                 vim.lsp.buf.code_action({
                     context = {
@@ -36,10 +35,6 @@ return {
                 cmd = { "clangd", "--background-index", "--query-driver=/usr/bin/clang++", "--pch-storage=memory", "--clang-tidy" },
                 vim.api.nvim_create_user_command("A", "LspClangdSwitchSourceHeader", {})
             })
-            vim.lsp.enable("clangd")
-            vim.lsp.enable("pyright")
-            vim.lsp.enable("ruff")
-            vim.lsp.enable("r_language_server")
             vim.lsp.config("lua_ls", {
                 settings = {
                     Lua = {
@@ -56,6 +51,15 @@ return {
                     }
                 }
             })
+
+            if vim.o.diff then
+                return
+            end
+
+            vim.lsp.enable("clangd")
+            vim.lsp.enable("pyright")
+            vim.lsp.enable("ruff")
+            vim.lsp.enable("r_language_server")
             vim.lsp.enable("lua_ls")
         end
     }
