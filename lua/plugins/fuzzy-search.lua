@@ -78,7 +78,8 @@ return {
                         width = 0.5,  -- 50% of screen width
                         height = 0.6, -- 40% of screen height
                     },
-                    sorting_strategy = "ascending"
+                    sorting_strategy = "ascending",
+                    file_ignore_patterns = { "third_party/" },
                 },
             }
             require('telescope').load_extension('fzf')
