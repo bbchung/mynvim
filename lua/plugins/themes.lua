@@ -100,23 +100,4 @@ return {
             }
         end
     },
-    {
-        "mhinz/vim-startify",
-        lazy = false,
-        config = function()
-            -- Startify settings
-            vim.g.startify_session_persistence = 1
-            vim.g.startify_change_to_dir = 0
-            vim.g.startify_fortune_use_unicode = 1
-            vim.g.startify_relative_path = 1
-
-            -- Autocommand: enable cursorline when Startify buffer is loaded
-            vim.api.nvim_create_autocmd("User", {
-                pattern = "Startified",
-                callback = function()
-                    vim.opt_local.cursorline = true
-                end,
-            })
-        end
-    },
 }
