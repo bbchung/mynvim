@@ -16,6 +16,27 @@ vim.opt.undofile = true
 vim.opt.undolevels = 1000
 vim.opt.undoreload = 10000
 vim.opt.wrap = false
+vim.opt.cursorline = true
+local undo_dir = vim.fn.stdpath("config") .. "/undo"
+if vim.fn.isdirectory(undo_dir) == 0 then
+    vim.fn.mkdir(undo_dir, "p")
+end
+vim.o.undodir = undo_dir
+
+
+vim.diagnostic.config({
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.INFO] = "",
+            [vim.diagnostic.severity.HINT] = "",
+        },
+    },
+    virtual_text = { current_line = true },
+    severity_sort = true,
+})
+
 
 vim.keymap.set("i", "<C-c>", "<Esc>", { noremap = true, silent = true })
 vim.keymap.set("n", "<F3>", ":bd!<CR>", { silent = true })
@@ -29,12 +50,9 @@ vim.keymap.set("n", "Q", "<Nop>", { noremap = true })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-N>", { noremap = true })
 
 vim.api.nvim_create_user_command("W", "silent w !sudo > /dev/null tee %", {})
-
-local undo_dir = vim.fn.stdpath("config") .. "/undo"
-if vim.fn.isdirectory(undo_dir) == 0 then
-    vim.fn.mkdir(undo_dir, "p")
-end
-vim.o.undodir = undo_dir
+vim.api.nvim_create_user_command("Diagnostics", function()
+    vim.diagnostic.setqflist({ open = true })
+end, { desc = "Open all LSP diagnostics in quickfix" })
 
 local augroup = vim.api.nvim_create_augroup("user_autocmds", { clear = true })
 
@@ -48,27 +66,11 @@ vim.api.nvim_create_autocmd("BufReadPost", {
         end
     end,
 })
-vim.api.nvim_create_user_command("Diagnostics", function()
-    vim.diagnostic.setqflist({ open = true })
-end, { desc = "Open all LSP diagnostics in quickfix" })
 
 vim.api.nvim_create_autocmd("TermOpen", {
     group = augroup,
     pattern = "*",
     command = "startinsert",
-})
-
-vim.diagnostic.config({
-    signs = {
-        text = {
-            [vim.diagnostic.severity.ERROR] = "",
-            [vim.diagnostic.severity.WARN] = "",
-            [vim.diagnostic.severity.INFO] = "",
-            [vim.diagnostic.severity.HINT] = "",
-        },
-    },
-    virtual_text = { current_line = true },
-    severity_sort = true,
 })
 
 require("config.lazy")
