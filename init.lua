@@ -73,4 +73,4 @@ vim.diagnostic.config({
 
 require("config.lazy")
 
-vim.cmd.colorscheme("everforest")
+vim.cmd.colorscheme("catppuccin")
