@@ -12,6 +12,12 @@ return {
                     treesitter = true,
                     mason = true,
                 },
+                custom_highlights = {
+                    DiffAdd    = { bg = "#274239", fg = "#d6eeba" },
+                    DiffChange = { bg = "#5a4e3b", fg = "#f9e2af" },
+                    DiffDelete = { bg = "#622626", fg = "#f38ba8" },
+                    DiffText   = { bg = "#7f5f80", fg = "#f5c2e7" },
+                },
             })
         end,
     },
