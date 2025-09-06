@@ -21,7 +21,7 @@ local undo_dir = vim.fn.stdpath("config") .. "/undo"
 if vim.fn.isdirectory(undo_dir) == 0 then
     vim.fn.mkdir(undo_dir, "p")
 end
-vim.o.undodir = undo_dir
+vim.opt.undodir = undo_dir
 
 
 vim.diagnostic.config({
@@ -75,4 +75,8 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 require("config.lazy")
 
-vim.cmd.colorscheme("catppuccin")
+if vim.opt.diff:get() then
+    vim.cmd("syntax off")
+end
+
+vim.cmd.colorscheme("everforest")
