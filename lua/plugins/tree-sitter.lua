@@ -5,13 +5,15 @@ return {
         opts = {
             ensure_installed = {
                 "bash",
-                "c",
-                "cpp",
+                "toml",
                 "json",
                 "yaml",
-                "lua",
-                "lua",
                 "python",
+                "lua",
+                "r",
+                "c",
+                "cpp",
+                "cmake",
             },
 
             -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -32,7 +34,7 @@ return {
             },
 
         },
-        config = function(plugin, opts)
+        config = function(_, opts)
             require("nvim-treesitter.configs").setup(opts)
 
             vim.wo.foldmethod = 'expr'
