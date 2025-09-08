@@ -80,3 +80,10 @@ if vim.opt.diff:get() then
 end
 
 vim.cmd.colorscheme("everforest")
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "csv", "tsv" },
+  callback = function()
+    vim.cmd("CsvViewEnable")
+  end,
+})
+

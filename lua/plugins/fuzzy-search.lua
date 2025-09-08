@@ -71,6 +71,16 @@ return {
             vim.keymap.set("n", "<Leader>b", ":Telescope buffers<CR>", { silent = true })
             require('telescope').setup {
                 defaults = {
+                    mappings = {
+                        i = { -- insert mode
+                            ["<C-k>"] = require("telescope.actions").move_selection_previous,
+                            ["<C-j>"] = require("telescope.actions").move_selection_next,
+                        },
+                        n = { -- normal mode
+                            ["<C-k>"] = require("telescope.actions").move_selection_previous,
+                            ["<C-j>"] = require("telescope.actions").move_selection_next,
+                        },
+                    },
                     preview = false,
                     layout_config = {
                         prompt_position = "top",
