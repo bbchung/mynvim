@@ -69,7 +69,17 @@ return {
             vim.keymap.set("n", "<Leader>F", ":Telescope git_files<CR>", { silent = true })
             vim.keymap.set("n", "<Leader>f", ":Telescope find_files<CR>", { silent = true })
             vim.keymap.set("n", "<Leader>b", ":Telescope buffers<CR>", { silent = true })
+
             require('telescope').setup {
+                pickers = {
+                    find_files = {
+                        entry_maker = function(filepath)
+                            local entry = require("telescope.make_entry").gen_from_file()(filepath)
+                            entry.ordinal = vim.fn.fnamemodify(filepath, ":t")
+                            return entry
+                        end
+                    },
+                },
                 defaults = {
                     mappings = {
                         i = { -- insert mode
