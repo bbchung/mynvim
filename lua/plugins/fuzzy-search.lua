@@ -89,10 +89,12 @@ return {
                         i = {
                             ["<C-k>"] = require("telescope.actions").move_selection_previous,
                             ["<C-j>"] = require("telescope.actions").move_selection_next,
+                            ["<C-q>"] = require("telescope.actions").send_to_qflist,
                         },
                         n = {
                             ["<C-k>"] = require("telescope.actions").move_selection_previous,
                             ["<C-j>"] = require("telescope.actions").move_selection_next,
+                            ["<C-q>"] = require("telescope.actions").send_to_qflist,
                         },
                     },
                     preview = false,
