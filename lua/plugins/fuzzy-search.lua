@@ -79,14 +79,18 @@ return {
                             return entry
                         end
                     },
+                    buffers = {
+                        sort_lastused = true,
+                        sorter = nil,
+                    }
                 },
                 defaults = {
                     mappings = {
-                        i = { -- insert mode
+                        i = {
                             ["<C-k>"] = require("telescope.actions").move_selection_previous,
                             ["<C-j>"] = require("telescope.actions").move_selection_next,
                         },
-                        n = { -- normal mode
+                        n = {
                             ["<C-k>"] = require("telescope.actions").move_selection_previous,
                             ["<C-j>"] = require("telescope.actions").move_selection_next,
                         },
@@ -94,8 +98,8 @@ return {
                     preview = false,
                     layout_config = {
                         prompt_position = "top",
-                        width = 0.5,  -- 50% of screen width
-                        height = 0.6, -- 40% of screen height
+                        width = 0.5,
+                        height = 0.6,
                     },
                     sorting_strategy = "ascending",
                     file_ignore_patterns = { "third_party/" },
