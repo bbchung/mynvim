@@ -50,7 +50,28 @@ vim.keymap.set("n", "<F7>", ":cp<CR>", { silent = true })
 vim.keymap.set("n", "<F8>", ":cn<CR>", { silent = true })
 vim.keymap.set("n", "Q", "<Nop>", { noremap = true })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-N>", { noremap = true })
+vim.keymap.set("n", "<Leader>G", function()
+    local word = vim.fn.expand("<cword>")
+    vim.cmd(string.format("silent grep! %s `git ls-files`", word))
+    vim.cmd("copen")
+end, { silent = true })
 
+vim.keymap.set('x', '<leader>G', function()
+    --local start_pos     = vim.api.nvim_buf_get_mark(0, "<") -- start of visual
+    --local end_pos       = vim.api.nvim_buf_get_mark(0, ">") -- end of visual
+    --local line          = vim.api.nvim_buf_get_lines(0, start_pos[1] - 1, start_pos[1], false)[1]
+    --local col_start     = start_pos[2] + 1                  -- Lua string.sub is 1-based
+    --local col_end       = end_pos[2] + 1
+    --local selected_text = string.sub(line, col_start, col_end)
+    local save_reg     = vim.fn.getreg('"')
+    local save_regtype = vim.fn.getregtype('"')
+    vim.cmd('normal! "vy')
+    local selected_text = vim.fn.getreg('"')
+    vim.fn.setreg('"', save_reg, save_regtype)
+
+    vim.cmd('silent grep! -F ' .. vim.fn.shellescape(selected_text) .. ' `git ls-files`')
+    vim.cmd('copen')
+end, { silent = true })
 vim.api.nvim_create_user_command("W", "silent w !sudo > /dev/null tee %", {})
 vim.api.nvim_create_user_command("Diagnostics", function()
     vim.diagnostic.setqflist({ open = true })
@@ -79,13 +100,13 @@ require("config.lazy")
 
 if vim.opt.diff:get() then
     vim.cmd("syntax off")
+    vim.opt.readonly = false
 end
 
 vim.cmd.colorscheme("everforest")
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "csv", "tsv" },
-  callback = function()
-    vim.cmd("CsvViewEnable")
-  end,
+    pattern = { "csv", "tsv" },
+    callback = function()
+        vim.cmd("CsvViewEnable")
+    end,
 })
-

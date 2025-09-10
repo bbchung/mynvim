@@ -6,7 +6,7 @@ return {
         end,
         config = function()
             -- Escape special characters for Gtags
-            function _G.GtagsEscape(pattern)
+            function GtagsEscape(pattern)
                 return pattern:gsub("[.*+?^$()|&;!#%%\\%[%] ]", "\\%1")
             end
 
@@ -17,7 +17,7 @@ return {
                 -- clear quickfix list
                 vim.fn.setqflist({})
                 local word = vim.fn.expand("<cword>")
-                local cmd = string.format("Gtags -g %s", _G.GtagsEscape(word))
+                local cmd = string.format("Gtags -g %s", GtagsEscape(word))
                 vim.cmd(cmd)
                 vim.cmd("copen")
             end, { silent = true })
@@ -25,12 +25,16 @@ return {
             -- Visual mode mapping
             vim.keymap.set("v", "<Leader>g", function()
                 vim.fn.setqflist({})
-                local start_pos = vim.fn.getpos("'<")[2]
-                local end_pos = vim.fn.getpos("'>")[2]
-                local line = vim.fn.getline("'<")
-                local selection = line:sub(start_pos, end_pos)
-                local cmd = string.format("Gtags -g %s", _G.GtagsEscape(selection))
-                vim.cmd(cmd)
+                local save_reg = vim.fn.getreg('"')
+                local save_regtype = vim.fn.getregtype('"')
+
+                -- Yank visual selection into unnamed register
+                vim.cmd('normal! "vy')
+
+                -- Get yanked text
+                local selected_text = vim.fn.getreg('"')
+                vim.fn.setreg('"', save_reg, save_regtype)
+                vim.cmd(string.format("Gtags -g %s", GtagsEscape(selected_text)))
                 vim.cmd("copen")
             end, { silent = true })
 
