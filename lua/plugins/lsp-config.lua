@@ -5,30 +5,34 @@ return {
             vim.keymap.set({ 'n', 'v' }, '<leader>x', function()
                 vim.lsp.buf.code_action({
                     context = {
+                        diagnostics = vim.lsp.diagnostic.get_line_diagnostics(),
                         only = {
                             "quickfix",
-                            "source.fixAll",
                         },
                     },
                     apply = true,
                 })
             end, { silent = true, desc = "LSP Quick Fix" })
-            vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true })
-            vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { silent = true })
-            vim.api.nvim_set_keymap("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<CR>", { silent = true })
-            vim.api.nvim_set_keymap("n", "<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", { silent = true })
+            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'LSP: Go to Definition', silent = true })
+            vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = 'LSP: Find References', silent = true })
+            vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, { desc = 'LSP: Rename Symbol', silent = true })
+            vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, { desc = 'LSP: Code Action', silent = true })
             vim.keymap.set("n", "<Leader>k", function()
                 vim.lsp.buf.format({ async = true })
             end, { noremap = true, silent = true })
-            -- Format selected range
-            vim.keymap.set("v", "<leader>k", function()
+            vim.keymap.set("v", "<Leader>k", function()
+                local start_pos             = vim.api.nvim_buf_get_mark(0, "<")
+                local end_pos               = vim.api.nvim_buf_get_mark(0, ">")
+                local start_line, start_col = start_pos[1] - 1, start_pos[2]
+                local end_line, end_col     = end_pos[1] - 1, end_pos[2]
+
                 vim.lsp.buf.format({
-                    async = true,
                     range = {
-                        start = vim.fn.getpos("'<")[2] - 1, -- line numbers are 0-indexed
-                        ["end"] = vim.fn.getpos("'>")[2]
-                    }
+                        ["start"] = { start_line, start_col },
+                        ["end"]   = { end_line, end_col + 1 },
+                    },
                 })
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, true, true), 'n', false)
             end, { noremap = true, silent = true })
 
             vim.lsp.config('clangd', {

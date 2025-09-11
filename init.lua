@@ -39,7 +39,6 @@ vim.diagnostic.config({
     severity_sort = true,
 })
 
-
 vim.keymap.set("i", "<C-c>", "<Esc>", { noremap = true, silent = true })
 vim.keymap.set("n", "<F3>", ":bd!<CR>", { silent = true })
 vim.keymap.set("n", "<F4>", ":qa!<CR>", { silent = true })
@@ -51,8 +50,7 @@ vim.keymap.set("n", "<F8>", ":cn<CR>", { silent = true })
 vim.keymap.set("n", "Q", "<Nop>", { noremap = true })
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-N>", { noremap = true })
 vim.keymap.set("n", "<Leader>G", function()
-    local word = vim.fn.expand("<cword>")
-    vim.cmd(string.format("silent grep! %s `git ls-files`", word))
+    vim.cmd(string.format("silent grep! %s `git ls-files`", vim.fn.expand("<cword>")))
     vim.cmd("copen")
 end, { silent = true })
 
@@ -77,6 +75,8 @@ vim.api.nvim_create_user_command("Diagnostics", function()
     vim.diagnostic.setqflist({ open = true })
 end, { desc = "Open all LSP diagnostics in quickfix" })
 
+require("config.lazy")
+
 local augroup = vim.api.nvim_create_augroup("user_autocmds", { clear = true })
 
 vim.api.nvim_create_autocmd("BufReadPost", {
@@ -96,7 +96,13 @@ vim.api.nvim_create_autocmd("TermOpen", {
     command = "startinsert",
 })
 
-require("config.lazy")
+vim.api.nvim_create_autocmd("FileType", {
+    group = augroup,
+    pattern = { "csv", "tsv" },
+    callback = function()
+        vim.cmd("CsvViewEnable")
+    end,
+})
 
 if vim.opt.diff:get() then
     vim.cmd("syntax off")
@@ -104,9 +110,3 @@ if vim.opt.diff:get() then
 end
 
 vim.cmd.colorscheme("everforest")
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "csv", "tsv" },
-    callback = function()
-        vim.cmd("CsvViewEnable")
-    end,
-})
