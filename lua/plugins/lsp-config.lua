@@ -61,6 +61,23 @@ return {
                 return
             end
 
+            local lsp_highlight_group = vim.api.nvim_create_augroup('LspHighlight', { clear = true })
+            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+                group = lsp_highlight_group,
+                pattern = '*',
+                callback = function()
+                    vim.lsp.buf.document_highlight()
+                end,
+            })
+
+            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+                group = lsp_highlight_group,
+                pattern = '*',
+                callback = function()
+                    vim.lsp.buf.clear_references()
+                end,
+            })
+
             vim.lsp.enable("clangd")
             vim.lsp.enable("pyright")
             vim.lsp.enable("ruff")
