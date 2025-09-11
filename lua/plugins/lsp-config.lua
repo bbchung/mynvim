@@ -61,20 +61,22 @@ return {
                 return
             end
 
-            local lsp_highlight_group = vim.api.nvim_create_augroup('LspHighlight', { clear = true })
-            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-                group = lsp_highlight_group,
-                pattern = '*',
-                callback = function()
-                    vim.lsp.buf.document_highlight()
-                end,
-            })
-
-            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-                group = lsp_highlight_group,
+            local HIGHLIGHT_DELAY = 200
+            local highlight_timer = nil
+            local custom_cursorhold_group = vim.api.nvim_create_augroup('CustomCursorHold', { clear = true })
+            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI', 'TextChanged', 'TextChangedI' }, {
+                group = custom_cursorhold_group,
                 pattern = '*',
                 callback = function()
                     vim.lsp.buf.clear_references()
+
+                    if highlight_timer then
+                        vim.fn.timer_stop(highlight_timer)
+                    end
+
+                    highlight_timer = vim.fn.timer_start(HIGHLIGHT_DELAY, function()
+                        vim.lsp.buf.document_highlight()
+                    end)
                 end,
             })
 
