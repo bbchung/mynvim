@@ -70,7 +70,8 @@ return {
             vim.keymap.set("n", "<Leader>f", ":Telescope find_files<CR>", { silent = true })
             vim.keymap.set("n", "<Leader>b", ":Telescope buffers<CR>", { silent = true })
 
-            require('telescope').setup {
+            local telescope = require("telescope")
+            telescope.setup {
                 pickers = {
                     find_files = {
                         entry_maker = function(filepath)
@@ -107,7 +108,7 @@ return {
                     file_ignore_patterns = { "third_party/" },
                 },
             }
-            require('telescope').load_extension('fzf')
+            telescope.load_extension('fzf')
         end
-    }
+    },
 }
