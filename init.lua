@@ -56,17 +56,18 @@ vim.keymap.set("n", "<Leader>G", function()
 end, { silent = true })
 
 vim.keymap.set('x', '<leader>G', function()
-    --local start_pos     = vim.api.nvim_buf_get_mark(0, "<") -- start of visual
-    --local end_pos       = vim.api.nvim_buf_get_mark(0, ">") -- end of visual
-    --local line          = vim.api.nvim_buf_get_lines(0, start_pos[1] - 1, start_pos[1], false)[1]
-    --local col_start     = start_pos[2] + 1                  -- Lua string.sub is 1-based
-    --local col_end       = end_pos[2] + 1
-    --local selected_text = string.sub(line, col_start, col_end)
-    local save_reg     = vim.fn.getreg('"')
-    local save_regtype = vim.fn.getregtype('"')
-    vim.cmd('normal! "vy')
-    local selected_text = vim.fn.getreg('"')
-    vim.fn.setreg('"', save_reg, save_regtype)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+    local bufnr         = vim.api.nvim_get_current_buf()
+    local start_pos     = vim.api.nvim_buf_get_mark(bufnr, "<")
+    local end_pos       = vim.api.nvim_buf_get_mark(bufnr, ">")
+    local line          = vim.api.nvim_buf_get_lines(bufnr, start_pos[1] - 1, start_pos[1], true)[1]
+    local selected_text = string.sub(line, start_pos[2] + 1, end_pos[2] + 1)
+
+    --local save_reg     = vim.fn.getreg('"')
+    --local save_regtype = vim.fn.getregtype('"')
+    --vim.cmd('normal! "vy')
+    --local selected_text = vim.fn.getreg('"')
+    --vim.fn.setreg('"', save_reg, save_regtype)
 
     vim.cmd('silent grep! -F ' .. vim.fn.shellescape(selected_text) .. ' `git ls-files`')
     vim.cmd('copen')

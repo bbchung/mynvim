@@ -20,7 +20,8 @@ return {
             vim.keymap.set("n", "<Leader>k", function()
                 vim.lsp.buf.format({ async = true })
             end, { noremap = true, silent = true })
-            vim.keymap.set("v", "<Leader>k", function()
+            vim.keymap.set("x", "<Leader>k", function()
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
                 local start_pos             = vim.api.nvim_buf_get_mark(0, "<")
                 local end_pos               = vim.api.nvim_buf_get_mark(0, ">")
                 local start_line, start_col = start_pos[1] - 1, start_pos[2]

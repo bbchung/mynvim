@@ -22,18 +22,14 @@ return {
                 vim.cmd("copen")
             end, { silent = true })
 
-            -- Visual mode mapping
-            vim.keymap.set("v", "<Leader>g", function()
+            vim.keymap.set("x", "<Leader>g", function()
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
                 vim.fn.setqflist({})
-                local save_reg = vim.fn.getreg('"')
-                local save_regtype = vim.fn.getregtype('"')
-
-                -- Yank visual selection into unnamed register
-                vim.cmd('normal! "vy')
-
-                -- Get yanked text
-                local selected_text = vim.fn.getreg('"')
-                vim.fn.setreg('"', save_reg, save_regtype)
+                local bufnr         = vim.api.nvim_get_current_buf()
+                local start_pos     = vim.api.nvim_buf_get_mark(bufnr, "<")
+                local end_pos       = vim.api.nvim_buf_get_mark(bufnr, ">")
+                local line          = vim.api.nvim_buf_get_lines(bufnr, start_pos[1] - 1, start_pos[1], true)[1]
+                local selected_text = string.sub(line, start_pos[2] + 1, end_pos[2] + 1)
                 vim.cmd(string.format("Gtags -g %s", GtagsEscape(selected_text)))
                 vim.cmd("copen")
             end, { silent = true })
