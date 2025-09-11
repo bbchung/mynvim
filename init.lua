@@ -40,6 +40,7 @@ vim.diagnostic.config({
 })
 
 vim.keymap.set("i", "<C-c>", "<Esc>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-c>", "<Esc>", { noremap = true, silent = true })
 vim.keymap.set("n", "<F3>", ":bd!<CR>", { silent = true })
 vim.keymap.set("n", "<F4>", ":qa!<CR>", { silent = true })
 vim.keymap.set("t", "<F4>", "<C-\\><C-N>:qa!<CR>", { silent = true })
