@@ -8,11 +8,14 @@ return {
             "hrsh7th/cmp-cmdline",
             "L3MON4D3/LuaSnip",
             "saadparwaiz1/cmp_luasnip",
+            "honza/vim-snippets",
         },
         config = function()
             local cmp = require("cmp")
             local luasnip = require("luasnip")
 
+            --require("luasnip.loaders.from_vscode").lazy_load()
+            require("luasnip.loaders.from_snipmate").lazy_load()
             cmp.setup({
                 snippet = {
                     expand = function(args)
@@ -20,7 +23,7 @@ return {
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
-                    ["<C-u>"] = cmp.mapping(function(fallback)
+                    ["<C-y>"] = cmp.mapping(function(fallback)
                         luasnip.expand()
                     end, { "i", "s" }),
                     ["<Tab>"] = cmp.mapping.select_next_item(),   -- Tab 選下個
@@ -31,6 +34,7 @@ return {
                     { name = "luasnip" },
                     { name = "buffer" },
                     { name = "path" },
+                    { name = "snippets" },
                 }),
             })
         end,

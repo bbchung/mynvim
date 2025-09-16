@@ -85,6 +85,7 @@ return {
             vim.lsp.enable("ruff")
             vim.lsp.enable("r_language_server")
             vim.lsp.enable("lua_ls")
+            vim.lsp.enable("bashls")
         end
     }
 }
