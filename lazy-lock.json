@@ -12,6 +12,7 @@
   "csv.vim": { "branch": "master", "commit": "b8eb7f67babce96168e7f6b93b2ba8328b72a390" },
   "csvview.nvim": { "branch": "main", "commit": "bbab4c2f808fd8e11ec8dfdd128251aadba566a1" },
   "everforest": { "branch": "master", "commit": "bc796ccfb2179887593f4a33d4a6376081afa3b1" },
+  "friendly-snippets": { "branch": "main", "commit": "572f5660cf05f8cd8834e096d7b4c921ba18e175" },
   "gruvbox-material": { "branch": "master", "commit": "9bcf7c90e546119c841fecc9807efbd498a3f513" },
   "gtags.vim": { "branch": "master", "commit": "770fff04518b2c69a840226338e22844a3a9f4db" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
