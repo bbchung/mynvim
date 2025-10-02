@@ -74,7 +74,7 @@ return {
                     end
 
                     highlight_timer = vim.fn.timer_start(HIGHLIGHT_DELAY, function()
-                        pcall(vim.lsp.buf.document_highlight)
+                        vim.lsp.buf.document_highlight()
                     end)
                 end,
             })
