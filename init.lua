@@ -79,8 +79,7 @@ end, { desc = "Open all LSP diagnostics in quickfix" })
 
 require("config.lazy")
 
-local augroup = vim.api.nvim_create_augroup("user_autocmds", { clear = true })
-
+local augroup = vim.api.nvim_create_augroup("UserAutoCmd", { clear = true })
 vim.api.nvim_create_autocmd("BufReadPost", {
     group = augroup,
     pattern = "*",
