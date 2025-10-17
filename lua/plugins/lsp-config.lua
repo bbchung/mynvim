@@ -37,7 +37,7 @@ return {
             end, { noremap = true, silent = true })
 
             vim.lsp.config('clangd', {
-                cmd = { "clangd", "--background-index", "--query-driver=/usr/bin/clang++", "--pch-storage=memory", "--clang-tidy" },
+                cmd = { "clangd", "--background-index", "--query-driver=/usr/bin/clang++", "--pch-storage=memory", "--clang-tidy", "--limit-results=0", "--limit-references=0", "--rename-file-limit=0" },
             })
             vim.lsp.config("lua_ls", {
                 settings = {
@@ -60,24 +60,32 @@ return {
                 return
             end
 
-            local HIGHLIGHT_DELAY = 200
-            local highlight_timer = nil
-            local custom_cursorhold_group = vim.api.nvim_create_augroup('CustomCursorHold', { clear = true })
-            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI', 'TextChanged', 'TextChangedI' }, {
-                group = custom_cursorhold_group,
-                pattern = '*',
-                callback = function()
-                    vim.lsp.buf.clear_references()
+            vim.api.nvim_create_autocmd("LspAttach", {
+                callback = function(args)
+                    local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    local bufnr = args.buf
 
-                    if highlight_timer then
-                        vim.fn.timer_stop(highlight_timer)
+                    if client and client.server_capabilities.documentHighlightProvider then
+                        local group = vim.api.nvim_create_augroup("HighlightCursorGroup", { clear = false })
+                        vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
+
+                        local timer = nil
+                        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "TextChanged", "TextChangedI" }, {
+                            group = group,
+                            buffer = bufnr,
+                            callback = function()
+                                vim.lsp.buf.clear_references()
+                                if timer then vim.fn.timer_stop(timer) end
+                                timer = vim.fn.timer_start(200, function()
+                                    vim.lsp.buf.document_highlight()
+                                end)
+                            end,
+                        })
                     end
-
-                    highlight_timer = vim.fn.timer_start(HIGHLIGHT_DELAY, function()
-                        vim.lsp.buf.document_highlight()
-                    end)
                 end,
             })
+
+
             vim.api.nvim_create_user_command("A", "LspClangdSwitchSourceHeader", {})
 
             vim.lsp.enable("clangd")

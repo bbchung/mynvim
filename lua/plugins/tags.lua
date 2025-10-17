@@ -23,7 +23,7 @@ return {
             end, { silent = true })
 
             vim.keymap.set("x", "<Leader>g", function()
-                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'x', false)
                 vim.fn.setqflist({})
                 local bufnr         = vim.api.nvim_get_current_buf()
                 local start_pos     = vim.api.nvim_buf_get_mark(bufnr, "<")
