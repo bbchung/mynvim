@@ -29,6 +29,7 @@ return {
     },
     {
         "hat0uma/csvview.nvim",
+        ft = "csv",
         opts = {
             parser = { comments = { "#", "//" } },
             view = {
@@ -36,6 +37,15 @@ return {
             },
         },
         cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+        config = function(_, opts)
+            require("csvview").setup(opts)
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "csv", "tsv" },
+                callback = function()
+                    vim.cmd("CsvViewEnable")
+                end,
+            })
+        end,
     },
     {
         "tpope/vim-fugitive"

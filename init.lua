@@ -98,14 +98,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
     command = "startinsert",
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup,
-    pattern = { "csv", "tsv" },
-    callback = function()
-        vim.cmd("CsvViewEnable")
-    end,
-})
-
 if vim.opt.diff:get() then
     vim.cmd("syntax off")
     vim.opt.readonly = false

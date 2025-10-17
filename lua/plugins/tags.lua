@@ -60,10 +60,9 @@ return {
 
             run_async_singleton({ "global", "-uv" })
             vim.api.nvim_create_autocmd("BufWritePost", {
-                pattern = { "*.c", "*.cpp", "*.h", "*.hpp" },
-                callback = function()
-                    local bufname = vim.api.nvim_buf_get_name(0)
-                    run_async_singleton({ "global", "-u", "--single-update", bufname })
+                pattern = { "*.c", "*.cpp", "*.cc", "*.h", "*.hpp" },
+                callback = function(args)
+                    run_async_singleton({ "global", "-u", "--single-update", args.file })
                 end,
             })
         end

@@ -1,6 +1,6 @@
 {
   "LeaderF": { "branch": "master", "commit": "57c53693c99776385020e121a252cb35ac3edb72" },
-  "LuaSnip": { "branch": "master", "commit": "113f831c4dc5b8c4e97454a7f89bb21746fe6484" },
+  "LuaSnip": { "branch": "master", "commit": "eec1a84823e3fb9eb51705265cab77d9a970be20" },
   "alpha-nvim": { "branch": "main", "commit": "2b3cbcdd980cae1e022409289245053f62fb50f6" },
   "catppuccin": { "branch": "main", "commit": "af58927c55c9f3272c940ff02b3cee94a1249f26" },
   "cmp-buffer": { "branch": "main", "commit": "b74fab3656eea9de20a9b8116afa3cfc4ec09657" },

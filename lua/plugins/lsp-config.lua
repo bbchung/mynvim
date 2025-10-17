@@ -63,16 +63,18 @@ return {
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
                     local client = vim.lsp.get_client_by_id(args.data.client_id)
-                    local bufnr = args.buf
+                    if not client then
+                        return
+                    end
 
-                    if client and client.server_capabilities.documentHighlightProvider then
+                    if client.server_capabilities.documentHighlightProvider then
                         local group = vim.api.nvim_create_augroup("HighlightCursorGroup", { clear = false })
-                        vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
+                        vim.api.nvim_clear_autocmds({ group = group, buffer = args.buf })
 
                         local timer = nil
                         vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "TextChanged", "TextChangedI" }, {
                             group = group,
-                            buffer = bufnr,
+                            buffer = args.buf,
                             callback = function()
                                 vim.lsp.buf.clear_references()
                                 if timer then vim.fn.timer_stop(timer) end
@@ -82,11 +84,14 @@ return {
                             end,
                         })
                     end
+
+                    if client.name == "clangd" then
+                        vim.api.nvim_buf_create_user_command(args.buf, "A", "LspClangdSwitchSourceHeader", {})
+                    end
                 end,
             })
 
 
-            vim.api.nvim_create_user_command("A", "LspClangdSwitchSourceHeader", {})
 
             vim.lsp.enable("clangd")
             vim.lsp.enable("pyright")
