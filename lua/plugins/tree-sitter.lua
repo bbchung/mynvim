@@ -35,10 +35,6 @@ return {
 
         },
         config = function(_, opts)
-            if vim.o.diff then
-                return
-            end
-
             require("nvim-treesitter.configs").setup(opts)
 
             vim.wo.foldmethod = 'expr'

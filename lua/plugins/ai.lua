@@ -1,19 +1,38 @@
 return {
     {
+        "github/copilot.vim",
+        enabled = true,
+        init = function()
+            vim.g.copilot_no_tab_map = true
+        end,
+        config = function()
+            vim.keymap.set("i", "<c-k>", 'copilot#Accept("<CR>")', {
+                silent = true,
+                expr = true,
+                script = true,
+            })
+
+            vim.keymap.set("i", "<c-x>", "<Plug>(copilot-dismiss)", { silent = true })
+            vim.keymap.set("i", "<c-l>", "<Plug>(copilot-next)", { silent = true })
+            vim.keymap.set("i", "<c-h>", "<Plug>(copilot-previous)", { silent = true })
+        end
+    },
+    {
         "Exafunction/windsurf.vim",
+        enabled = false,
         init = function()
             vim.g.codeium_no_map_tab = true
         end,
         config = function()
-            -- Change '<C-g>' here to any keycode you like.
-            vim.keymap.set('i', '<C-k>', function() return vim.fn['codeium#Accept']() end,
-                { expr = true, silent = true })
-            vim.keymap.set('i', '<c-l>', function() return vim.fn['codeium#CycleCompletions'](1) end,
-                { expr = true, silent = true })
-            vim.keymap.set('i', '<c-h>', function() return vim.fn['codeium#CycleCompletions'](-1) end,
-                { expr = true, silent = true })
-            vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end,
-                { expr = true, silent = true })
+            vim.keymap.set("i", "<c-k>", "codeium#Accept()", {
+                silent = true,
+                expr = true,
+                script = true,
+            })
+
+            vim.keymap.set("i", "<c-x>", "<Plug>(codeium-dismiss)", { silent = true })
+            vim.keymap.set("i", "<c-l>", "<Plug>(codeium-next)", { silent = true })
+            vim.keymap.set("i", "<c-h>", "<Plug>(codeium-previous)", { silent = true })
         end
     },
 }
