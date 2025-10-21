@@ -1,15 +1,14 @@
 return {
     {
         "github/copilot.vim",
-        enabled = true,
+        enabled = false,
         init = function()
             vim.g.copilot_no_tab_map = true
         end,
         config = function()
-            vim.keymap.set("i", "<c-k>", 'copilot#Accept("<CR>")', {
+            vim.keymap.set("i", "<c-k>", 'copilot#Accept()', {
                 silent = true,
                 expr = true,
-                script = true,
             })
 
             vim.keymap.set("i", "<c-x>", "<Plug>(copilot-dismiss)", { silent = true })
@@ -19,7 +18,7 @@ return {
     },
     {
         "Exafunction/windsurf.vim",
-        enabled = false,
+        enabled = true,
         init = function()
             vim.g.codeium_no_map_tab = true
         end,
@@ -27,7 +26,6 @@ return {
             vim.keymap.set("i", "<c-k>", "codeium#Accept()", {
                 silent = true,
                 expr = true,
-                script = true,
             })
 
             vim.keymap.set("i", "<c-x>", "<Plug>(codeium-dismiss)", { silent = true })
