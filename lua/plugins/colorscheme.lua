@@ -40,6 +40,11 @@ return {
     {
         "vague2k/vague.nvim",
         priority = 1000,
+        config = function()
+            require("vague").setup({
+                bold = false,
+            })
+        end
     },
     {
         "folke/tokyonight.nvim",

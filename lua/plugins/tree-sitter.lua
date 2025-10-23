@@ -1,7 +1,7 @@
 return {
     {
         "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate", -- Automatically update parsers when installing/updating
+        build = ":TSUpdate",
         opts = {
             ensure_installed = {
                 "bash",
@@ -15,20 +15,12 @@ return {
                 "cpp",
                 "cmake",
             },
-
-            -- Install parsers synchronously (only applied to `ensure_installed`)
             sync_install = false,
-
-            -- Automatically install missing parsers when entering a buffer
             auto_install = false,
-
-            -- Enable syntax highlighting
             highlight = {
                 enable = true,
                 additional_vim_regex_highlighting = false,
             },
-
-            -- Enable indentation (optional module)
             indent = {
                 enable = true,
             },

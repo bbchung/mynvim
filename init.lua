@@ -97,7 +97,8 @@ vim.api.nvim_create_autocmd("TermOpen", {
     command = "startinsert",
 })
 
-if vim.opt.diff:get() then
+if vim.o.diff then
+    vim.cmd("TSDisable highlight")
     vim.cmd("syntax off")
     vim.opt.readonly = false
 end
