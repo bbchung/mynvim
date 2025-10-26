@@ -40,7 +40,8 @@ vim.diagnostic.config({
     severity_sort = true,
 })
 
-for _,m in ipairs{'n','i','v','x','o','c'} do vim.keymap.set(m, '<C-c>', '<Esc>', {noremap=true, silent=true}) end
+for _, m in ipairs { 'n', 'i', 'v', 'x', 'o', 'c' } do vim.keymap.set(m, '<C-c>', '<Esc>',
+        { noremap = true, silent = true }) end
 vim.keymap.set("n", "<F3>", ":bd!<CR>", { silent = true })
 vim.keymap.set("n", "<F4>", ":qa!<CR>", { silent = true })
 vim.keymap.set("t", "<F4>", "<C-\\><C-N>:qa!<CR>", { silent = true })
@@ -98,9 +99,10 @@ vim.api.nvim_create_autocmd("TermOpen", {
 })
 
 if vim.o.diff then
+    vim.cmd.colorscheme("everforest")
     vim.cmd("TSDisable highlight")
     vim.cmd("syntax off")
     vim.opt.readonly = false
+else
+    vim.cmd.colorscheme("catppuccin-mocha")
 end
-
-vim.cmd.colorscheme("everforest")

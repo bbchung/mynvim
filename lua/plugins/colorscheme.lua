@@ -82,4 +82,36 @@ return {
             vim.g.everforest_current_word = 'high contrast background'
         end,
     },
+    {
+        "sainnhe/edge",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            vim.g.edge_background = 'hard'
+            vim.g.edge_enable_italic = 0
+            vim.g.edge_disable_italic_comment = 1
+            vim.g.edge_diagnostic_text_highlight = 1
+            vim.g.edge_diagnostic_line_highlight = 1
+            vim.g.edge_better_performance = 1
+            vim.g.edge_spell_foreground = 'colored'
+            vim.g.edge_diagnostic_virtual_text = 'highlighted'
+            vim.g.edge_current_word = 'high contrast background'
+        end,
+    },
+    {
+        "sainnhe/sonokai",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            vim.g.sonokai_background = 'hard'
+            vim.g.sonokai_enable_italic = 0
+            vim.g.sonokai_disable_italic_comment = 1
+            vim.g.sonokai_diagnostic_text_highlight = 1
+            vim.g.sonokai_diagnostic_line_highlight = 1
+            vim.g.sonokai_better_performance = 1
+            vim.g.sonokai_spell_foreground = 'colored'
+            vim.g.sonokai_diagnostic_virtual_text = 'highlighted'
+            vim.g.sonokai_current_word = 'high contrast background'
+        end,
+    },
 }
