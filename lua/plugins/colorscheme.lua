@@ -27,13 +27,8 @@ return {
         priority = 1000,
         config = function()
             require("catppuccin").setup({
-                default_integrations = true,
+                auto_integrations = true,
                 no_italic = true,
-                integrations = {
-                    cmp = true,
-                    treesitter = true,
-                    mason = true,
-                },
             })
         end,
     },

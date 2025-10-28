@@ -64,7 +64,7 @@ return {
     },
     {
         'nvim-telescope/telescope.nvim',
-        dependencies = { { 'nvim-lua/plenary.nvim' }, { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' } },
+        dependencies = { { 'nvim-lua/plenary.nvim' }, { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }, { "natecraddock/telescope-zf-native.nvim" } },
         config = function()
             vim.keymap.set("n", "<Leader>F", ":Telescope git_files<CR>", { silent = true })
             vim.keymap.set("n", "<Leader>f", ":Telescope find_files<CR>", { silent = true })
@@ -72,17 +72,43 @@ return {
 
             local telescope = require("telescope")
             telescope.setup {
-                pickers = {
-                    find_files = {
-                        entry_maker = function(filepath)
-                            local entry = require("telescope.make_entry").gen_from_file()(filepath)
-                            entry.ordinal = vim.fn.fnamemodify(filepath, ":t")
-                            return entry
-                        end
-                    },
-                    buffers = {
-                        sort_lastused = true,
-                        sorter = nil,
+                extensions = {
+                    ["zf-native"] = {
+                        -- options for sorting file-like items
+                        file = {
+                            -- override default telescope file sorter
+                            enable = true,
+
+                            -- highlight matching text in results
+                            highlight_results = true,
+
+                            -- enable zf filename match priority
+                            match_filename = true,
+
+                            -- optional function to define a sort order when the query is empty
+                            initial_sort = nil,
+
+                            -- set to false to enable case sensitive matching
+                            smart_case = true,
+                        },
+
+                        -- options for sorting all other items
+                        generic = {
+                            -- override default telescope generic item sorter
+                            enable = true,
+
+                            -- highlight matching text in results
+                            highlight_results = true,
+
+                            -- disable zf filename match priority
+                            match_filename = false,
+
+                            -- optional function to define a sort order when the query is empty
+                            initial_sort = nil,
+
+                            -- set to false to enable case sensitive matching
+                            smart_case = true,
+                        },
                     }
                 },
                 defaults = {
@@ -108,7 +134,7 @@ return {
                     file_ignore_patterns = { "third_party/" },
                 },
             }
-            telescope.load_extension('fzf')
+            telescope.load_extension('zf-native')
         end
     },
 }
