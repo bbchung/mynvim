@@ -104,5 +104,5 @@ if vim.o.diff then
     vim.cmd("syntax off")
     vim.opt.readonly = false
 else
-    vim.cmd.colorscheme("catppuccin-mocha")
+    vim.cmd.colorscheme("vague")
 end
