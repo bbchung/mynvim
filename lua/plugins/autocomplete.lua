@@ -37,6 +37,10 @@ return {
                     { name = "path" },
                     { name = "snippets" },
                 }),
+                window = {
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
+                },
             })
         end,
     },
