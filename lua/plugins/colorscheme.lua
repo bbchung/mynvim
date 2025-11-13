@@ -31,7 +31,7 @@ return {
         config = function()
             vim.g.gruvbox_material_background = 'hard'
             vim.g.gruvbox_material_enable_italic = 0
-            vim.g.gruvbox_material_disable_italic_comment = 1
+            vim.g.gruvbox_material_disable_italic_comment = 0
             vim.g.gruvbox_material_diagnostic_text_highlight = 1
             vim.g.gruvbox_material_diagnostic_line_highlight = 1
             vim.g.gruvbox_material_better_performance = 1
@@ -54,6 +54,7 @@ return {
             vim.g.everforest_spell_foreground = 'colored'
             vim.g.everforest_diagnostic_virtual_text = 'highlighted'
             vim.g.everforest_current_word = 'high contrast background'
+            vim.g.everforest_inlay_hints_background = 'dimmed'
         end,
     },
 }
