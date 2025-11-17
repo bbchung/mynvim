@@ -1,7 +1,7 @@
 return {
     {
         "github/copilot.vim",
-        enabled = true,
+        enabled = false,
         init = function()
             vim.g.copilot_no_tab_map = true
         end,
@@ -17,7 +17,7 @@ return {
     },
     {
         "Exafunction/windsurf.vim",
-        enabled = false,
+        enabled = true,
         init = function()
             vim.g.codeium_no_map_tab = true
         end,

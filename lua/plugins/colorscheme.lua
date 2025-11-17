@@ -16,6 +16,7 @@ return {
         config = function()
             require("vague").setup({
                 italic = false,
+                bold = false,
             })
         end
     },
