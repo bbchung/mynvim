@@ -37,6 +37,15 @@ return {
                 spacing = 1,
                 min_column_width = 3,
             },
+            keymaps = {
+                -- Horizontal navigation
+                jump_next_field_end = { "<Right>", mode = { "n", "v" } },
+                jump_prev_field_end = { "<Left>", mode = { "n", "v" } },
+
+                -- Vertical navigation
+                jump_next_row = { "<Down>", mode = { "n", "v" } },
+                jump_prev_row = { "<Up>", mode = { "n", "v" } },
+            },
         },
         cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
         config = function(_, opts)
