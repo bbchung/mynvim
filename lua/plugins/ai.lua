@@ -1,12 +1,13 @@
 return {
     {
         "github/copilot.vim",
-        enabled = false,
+        enabled = true,
         init = function()
             vim.g.copilot_no_tab_map = true
+            vim.g.copilot_npx = true
         end,
         config = function()
-            vim.keymap.set('i', '<C-k>', 'copilot#Accept("\\<CR>")', {
+            vim.keymap.set('i', '<c-k>', 'copilot#Accept("\\<CR>")', {
                 expr = true,
                 replace_keycodes = false
             })
@@ -17,7 +18,7 @@ return {
     },
     {
         "Exafunction/windsurf.vim",
-        enabled = true,
+        enabled = false,
         init = function()
             vim.g.codeium_no_map_tab = true
         end,

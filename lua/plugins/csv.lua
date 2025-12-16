@@ -34,7 +34,7 @@ return {
             parser = { comments = { "#", "//" } },
             view = {
                 display_mode = "border",
-                spacing = 1,
+                spacing = 0,
                 min_column_width = 3,
             },
             keymaps = {
