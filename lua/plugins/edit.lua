@@ -7,6 +7,7 @@ return {
         -- this is equivalent to setup({}) function
     },
     {
-        'scrooloose/nerdcommenter'
+        'scrooloose/nerdcommenter',
+        enabled = false,
     }
 }
