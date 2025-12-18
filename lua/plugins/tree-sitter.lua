@@ -1,6 +1,9 @@
 return {
     {
         "nvim-treesitter/nvim-treesitter",
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter-textobjects",
+        },
         build = ":TSUpdate",
         opts = {
             ensure_installed = {
@@ -23,6 +26,45 @@ return {
             },
             indent = {
                 enable = true,
+            },
+            textobjects = {
+                select = {
+                    enable = true,
+                    -- 發現目標時是否自動跳轉游標
+                    lookahead = true,
+                    keymaps = {
+                        ["af"] = "@function.outer",
+                        ["if"] = "@function.inner",
+                        ["ac"] = "@class.outer",
+                        ["ic"] = "@class.inner",
+                        ["al"] = "@loop.outer",
+                        ["il"] = "@loop.inner",
+                        ["aa"] = "@parameter.outer",
+                        ["ia"] = "@parameter.inner",
+                        ["ai"] = "@conditional.outer",
+                        ["ii"] = "@conditional.inner",
+                    },
+                },
+                move = {
+                    enable = true,
+                    set_jumps = true, -- 是否在跳轉清單紀錄位置
+                    goto_next_start = {
+                        ["]m"] = "@function.outer",
+                        ["]]"] = "@class.outer",
+                    },
+                    goto_next_end = {
+                        ["]M"] = "@function.outer",
+                        ["]["] = "@class.outer",
+                    },
+                    goto_previous_start = {
+                        ["[m"] = "@function.outer",
+                        ["[["] = "@class.outer",
+                    },
+                    goto_previous_end = {
+                        ["[M"] = "@function.outer",
+                        ["[]"] = "@class.outer",
+                    },
+                },
             },
 
         },
