@@ -65,9 +65,9 @@ return {
                 preset = 'none',
 
                 ['<C-y>'] = { 'select_and_accept', 'fallback' },
-                ['<S-Tab>'] = { 'select_prev' },
-                ['<Tab>'] = { 'select_next' },
-                ['<C-e>'] = { 'hide' },
+                ['<S-Tab>'] = { 'select_prev', 'fallback' },
+                ['<Tab>'] = { 'select_next', 'fallback' },
+                ['<C-e>'] = { 'hide', 'fallback' },
             },
 
             appearance = {
