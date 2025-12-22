@@ -1,6 +1,14 @@
 return {
     {
+        'L3MON4D3/LuaSnip',
+        dependencies = { "honza/vim-snippets" },
+        config = function()
+            require("luasnip.loaders.from_snipmate").lazy_load()
+        end,
+    },
+    {
         "hrsh7th/nvim-cmp",
+        enabled = false,
         dependencies = {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
@@ -43,5 +51,35 @@ return {
                 },
             })
         end,
+    },
+    {
+        'saghen/blink.cmp',
+        dependencies = { 'L3MON4D3/LuaSnip' },
+        build = 'cargo build --release',
+
+        opts = {
+            snippets = {
+                preset = 'luasnip',
+            },
+            keymap = {
+                preset = 'none',
+
+                ['<C-y>'] = { 'select_and_accept', 'fallback' },
+                ['<S-Tab>'] = { 'select_prev' },
+                ['<Tab>'] = { 'select_next' },
+                ['<C-e>'] = { 'hide' },
+            },
+
+            appearance = {
+                nerd_font_variant = 'mono'
+            },
+
+            completion = { documentation = { auto_show = false } },
+            sources = {
+                default = { 'lsp', 'path', 'snippets', 'buffer' },
+            },
+            fuzzy = { implementation = "prefer_rust_with_warning" }
+        },
+        opts_extend = { "sources.default" }
     },
 }

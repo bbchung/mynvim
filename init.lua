@@ -106,4 +106,4 @@ if vim.o.diff then
     vim.opt.readonly = false
 end
 
-vim.cmd.colorscheme("vague")
+vim.cmd.colorscheme("everforest")
