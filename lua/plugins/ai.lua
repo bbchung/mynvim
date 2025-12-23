@@ -7,7 +7,7 @@ return {
             vim.g.copilot_npx = true
         end,
         config = function()
-            vim.keymap.set('i', '<c-k>', 'copilot#Accept("\\<CR>")', {
+            vim.keymap.set('i', '<A-k>', 'copilot#Accept("\\<CR>")', {
                 expr = true,
                 replace_keycodes = false
             })
@@ -23,7 +23,7 @@ return {
             vim.g.codeium_no_map_tab = true
         end,
         config = function()
-            vim.keymap.set("i", "<c-k>", "codeium#Accept()", {
+            vim.keymap.set("i", "<A-k>", "codeium#Accept()", {
                 silent = true,
                 expr = true,
             })

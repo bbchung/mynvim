@@ -1,9 +1,10 @@
 return {
     {
         'L3MON4D3/LuaSnip',
-        dependencies = { "honza/vim-snippets" },
+        dependencies = { "rafamadriz/friendly-snippets", "honza/vim-snippets" },
         config = function()
             require("luasnip.loaders.from_snipmate").lazy_load()
+            require("luasnip.loaders.from_vscode").lazy_load()
         end,
     },
     {
@@ -32,7 +33,7 @@ return {
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
-                    ["<C-y>"] = cmp.mapping(function(_)
+                    ["<A-y>"] = cmp.mapping(function(_)
                         luasnip.expand()
                     end, { "i", "s" }),
                     ["<Tab>"] = cmp.mapping.select_next_item(),   -- Tab 選下個
@@ -54,6 +55,7 @@ return {
     },
     {
         'saghen/blink.cmp',
+        enabled = true,
         dependencies = { 'L3MON4D3/LuaSnip' },
         build = 'cargo build --release',
 
@@ -64,9 +66,9 @@ return {
             keymap = {
                 preset = 'none',
 
-                ['<C-y>'] = { 'select_and_accept', 'fallback' },
-                ['<S-Tab>'] = { 'select_prev', 'fallback' },
-                ['<Tab>'] = { 'select_next', 'fallback' },
+                ['<A-y>'] = { 'select_and_accept', 'fallback' },
+                ['<C-k>'] = { 'select_prev', 'fallback' },
+                ['<C-j>'] = { 'select_next', 'fallback' },
                 ['<C-e>'] = { 'hide', 'fallback' },
             },
 
