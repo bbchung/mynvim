@@ -36,8 +36,10 @@ return {
                     ["<A-y>"] = cmp.mapping(function(_)
                         luasnip.expand()
                     end, { "i", "s" }),
-                    ["<Tab>"] = cmp.mapping.select_next_item(),   -- Tab 選下個
-                    ["<S-Tab>"] = cmp.mapping.select_prev_item(), -- Shift+Tab 選上個
+                    ["<Tab>"] = cmp.mapping.select_next_item(),
+                    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+                    ["<A-j>"] = cmp.mapping.select_next_item(),
+                    ["<A-k>"] = cmp.mapping.select_prev_item(),
                 }),
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },
@@ -69,6 +71,8 @@ return {
                 ['<A-y>'] = { 'select_and_accept', 'fallback' },
                 ['<C-k>'] = { 'select_prev', 'fallback' },
                 ['<C-j>'] = { 'select_next', 'fallback' },
+                ['<S-Tab>'] = { 'select_prev', 'fallback' },
+                ['<Tab>'] = { 'select_next', 'fallback' },
                 ['<C-e>'] = { 'hide', 'fallback' },
             },
 
