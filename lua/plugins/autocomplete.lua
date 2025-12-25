@@ -68,9 +68,9 @@ return {
             keymap = {
                 preset = 'none',
 
-                ['<A-y>'] = { 'select_and_accept', 'fallback' },
-                ['<C-k>'] = { 'select_prev', 'fallback' },
-                ['<C-j>'] = { 'select_next', 'fallback' },
+                ['<C-y>'] = { 'select_and_accept', 'fallback' },
+                ['<A-k>'] = { 'select_prev', 'fallback' },
+                ['<A-j>'] = { 'select_next', 'fallback' },
                 ['<S-Tab>'] = { 'select_prev', 'fallback' },
                 ['<Tab>'] = { 'select_next', 'fallback' },
                 ['<C-e>'] = { 'hide', 'fallback' },
@@ -84,8 +84,10 @@ return {
             sources = {
                 default = { 'lsp', 'path', 'snippets', 'buffer' },
             },
+            cmdline = {
+                enabled = false,
+            },
             fuzzy = { implementation = "prefer_rust_with_warning" }
         },
-        opts_extend = { "sources.default" }
     },
 }

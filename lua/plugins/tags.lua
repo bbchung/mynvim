@@ -1,12 +1,13 @@
 return {
     {
         'bbchung/gtags.vim',
+        lazy = false,
         init = function()
             vim.g.Gtags_Auto_Update = 0
         end,
         config = function()
             -- Escape special characters for Gtags
-            function GtagsEscape(pattern)
+            local function GtagsEscape(pattern)
                 return pattern:gsub("[.*+?^$()|&;!#%%\\%[%] ]", "\\%1")
             end
 
@@ -22,10 +23,17 @@ return {
 
             vim.keymap.set("x", "<Leader>g", function()
                 vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'x', false)
-                local bufnr         = vim.api.nvim_get_current_buf()
-                local start_pos     = vim.api.nvim_buf_get_mark(bufnr, "<")
-                local end_pos       = vim.api.nvim_buf_get_mark(bufnr, ">")
-                local line          = vim.api.nvim_buf_get_lines(bufnr, start_pos[1] - 1, start_pos[1], true)[1]
+                local bufnr     = vim.api.nvim_get_current_buf()
+                local start_pos = vim.api.nvim_buf_get_mark(bufnr, "<")
+                local end_pos   = vim.api.nvim_buf_get_mark(bufnr, ">")
+
+                if start_pos[1] ~= end_pos[1] then
+                    vim.notify("Gtags: Multiline selection not supported", vim.log.levels.WARN)
+                    return
+                end
+
+                local line = vim.api.nvim_buf_get_lines(bufnr, start_pos[1] - 1, start_pos[1], true)[1]
+                if not line then return end
                 local selected_text = string.sub(line, start_pos[2] + 1, end_pos[2] + 1)
                 vim.cmd(string.format("Gtags -g %s", GtagsEscape(selected_text)))
                 vim.cmd("copen")
