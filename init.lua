@@ -106,4 +106,5 @@ if vim.o.diff then
     vim.opt.readonly = false
 end
 
+vim.lsp.log.set_level("off")
 vim.cmd.colorscheme("everforest")

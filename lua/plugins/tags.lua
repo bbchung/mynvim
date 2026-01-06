@@ -8,7 +8,7 @@ return {
         config = function()
             -- Escape special characters for Gtags
             local function GtagsEscape(pattern)
-                return pattern:gsub("[.*+?^$()|&;!#%%\\%[%] ]", "\\%1")
+                return (pattern:gsub("([^%w])", "\\%1"))
             end
 
             -- Normal mode mappings
