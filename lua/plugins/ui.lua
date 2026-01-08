@@ -69,4 +69,13 @@ return {
             }
         end
     },
+    {
+        "folke/trouble.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        opts = {
+            auto_jump = false,
+            auto_preview = false,
+        },
+    },
+
 }
