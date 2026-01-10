@@ -56,6 +56,19 @@ return {
                 },
             })
 
+            vim.lsp.config("r_language_server", {
+                cmd = { "R", "--no-echo", "-e", "options(lintr.linter_file = '.lintr'); languageserver::run()" },
+                root_dir = vim.fs.root(0, { ".lintr", ".git", "DESCRIPTION" }),
+                settings = {
+                    r = {
+                        lsp = {
+                            -- 直接在設定中鎖死 4 格縮排，避免讀取檔案失敗時退回 2 格
+                            lintr_options = "list(indentation_linter = indentation_linter(spaces = 4))",
+                        },
+                    },
+                },
+            })
+
             if vim.o.diff then
                 return
             end

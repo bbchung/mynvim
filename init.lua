@@ -20,6 +20,7 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 16
 vim.opt.smartindent = true
+vim.opt.swapfile = false
 local undo_dir = vim.fn.stdpath("config") .. "/undo"
 if vim.fn.isdirectory(undo_dir) == 0 then
     vim.fn.mkdir(undo_dir, "p")
