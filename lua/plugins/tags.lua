@@ -8,7 +8,7 @@ return {
         config = function()
             -- Escape special characters for Gtags
             local function GtagsEscape(pattern)
-                return (pattern:gsub("([^%w])", "\\%1"))
+                return pattern:gsub("([.*+?^$()|&;!#%%%[%]%{%} ])", "\\%1")
             end
 
             -- Normal mode mappings
@@ -16,8 +16,7 @@ return {
 
             vim.keymap.set("n", "<Leader>g", function()
                 local word = vim.fn.expand("<cword>")
-                local cmd = string.format("Gtags -g %s", GtagsEscape(word))
-                vim.cmd(cmd)
+                vim.cmd('Gtags -g ' .. GtagsEscape(word))
                 vim.cmd("copen")
             end, { silent = true })
 
@@ -35,7 +34,7 @@ return {
                 local line = vim.api.nvim_buf_get_lines(bufnr, start_pos[1] - 1, start_pos[1], true)[1]
                 if not line then return end
                 local selected_text = string.sub(line, start_pos[2] + 1, end_pos[2] + 1)
-                vim.cmd(string.format("Gtags -g %s", GtagsEscape(selected_text)))
+                vim.cmd('Gtags -g ' .. GtagsEscape(selected_text))
                 vim.cmd("copen")
             end, { silent = true })
 
