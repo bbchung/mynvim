@@ -68,7 +68,7 @@ return {
             keymap = {
                 preset = 'none',
 
-                ['<C-j>'] = { 'select_and_accept', 'fallback' },
+                ['<C-p>'] = { 'select_and_accept' },
                 ['<A-k>'] = { 'select_prev', 'fallback' },
                 ['<A-j>'] = { 'select_next', 'fallback' },
                 ['<S-Tab>'] = { 'select_prev', 'fallback' },
