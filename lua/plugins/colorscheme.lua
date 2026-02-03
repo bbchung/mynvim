@@ -1,15 +1,5 @@
 return {
     {
-        "catppuccin/nvim",
-        lazy = false,
-        priority = 1000,
-        config = function()
-            require("catppuccin").setup({
-                auto_integrations = true,
-            })
-        end,
-    },
-    {
         "vague2k/vague.nvim",
         lazy = false,
         priority = 1000,
@@ -47,8 +37,8 @@ return {
         priority = 1000,
         config = function()
             vim.g.everforest_background = 'hard'
-            vim.g.everforest_enable_italic = 0
-            vim.g.everforest_disable_italic_comment = 1
+            vim.g.everforest_enable_italic = 1
+            vim.g.everforest_disable_italic_comment = 0
             vim.g.everforest_diagnostic_text_highlight = 1
             vim.g.everforest_diagnostic_line_highlight = 1
             vim.g.everforest_better_performance = 1
