@@ -11,31 +11,40 @@ return {
                 return vim.fn.escape(pattern, '{}[]()^$.*+?-|%')
             end
 
+            local function run_gtags_search(pattern)
+                vim.cmd('Gtags -g ' .. GtagsEscape(pattern))
+                vim.cmd("copen")
+            end
+
             -- Normal mode mappings
             vim.keymap.set("n", "<Leader>s", ":GtagsCursor<CR>", { silent = true })
 
             vim.keymap.set("n", "<Leader>g", function()
                 local word = vim.fn.expand("<cword>")
-                vim.cmd('Gtags -g ' .. GtagsEscape(word))
-                vim.cmd("copen")
+                run_gtags_search(word)
             end, { silent = true })
 
             vim.keymap.set("x", "<Leader>g", function()
                 vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'x', false)
-                local bufnr     = vim.api.nvim_get_current_buf()
+                local bufnr = vim.api.nvim_get_current_buf()
                 local start_pos = vim.api.nvim_buf_get_mark(bufnr, "<")
-                local end_pos   = vim.api.nvim_buf_get_mark(bufnr, ">")
+                local end_pos = vim.api.nvim_buf_get_mark(bufnr, ">")
 
                 if start_pos[1] ~= end_pos[1] then
                     vim.notify("Gtags: Multiline selection not supported", vim.log.levels.WARN)
                     return
                 end
 
-                local line = vim.api.nvim_buf_get_lines(bufnr, start_pos[1] - 1, start_pos[1], true)[1]
-                if not line then return end
-                local selected_text = string.sub(line, start_pos[2] + 1, end_pos[2] + 1)
-                vim.cmd('Gtags -g ' .. GtagsEscape(selected_text))
-                vim.cmd("copen")
+                local selected_text = vim.api.nvim_buf_get_text(
+                    bufnr,
+                    start_pos[1] - 1,
+                    start_pos[2],
+                    end_pos[1] - 1,
+                    end_pos[2] + 1,
+                    {}
+                )[1]
+                if not selected_text then return end
+                run_gtags_search(selected_text)
             end, { silent = true })
 
             local current_job = nil
