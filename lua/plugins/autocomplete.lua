@@ -83,9 +83,9 @@ return {
             sources = {
                 default = { 'lsp', 'path', 'snippets', 'buffer' },
             },
-            cmdline = {
-                enabled = false,
-            },
+            -- cmdline = {
+            --     enabled = false,
+            -- },
             fuzzy = { implementation = "prefer_rust_with_warning" }
         },
     },
