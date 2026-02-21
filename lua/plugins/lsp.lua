@@ -62,8 +62,7 @@ return {
                 settings = {
                     r = {
                         lsp = {
-                            -- 直接在設定中鎖死 4 格縮排，避免讀取檔案失敗時退回 2 格
-                            lintr_options = "list(indentation_linter = indentation_linter(spaces = 4))",
+                            lintr_options = "list(indentation_linter = indentation_linter(spaces = 2))",
                         },
                     },
                 },

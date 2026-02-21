@@ -106,4 +106,4 @@ if vim.o.diff then
 end
 
 vim.lsp.log.set_level("off")
-vim.cmd.colorscheme("everforest")
+vim.cmd.colorscheme("vague")
