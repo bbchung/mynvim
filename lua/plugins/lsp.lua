@@ -113,6 +113,7 @@ return {
             vim.lsp.enable("bashls")
             vim.lsp.enable("cmake")
             vim.lsp.enable("yamlls")
+            vim.lsp.enable("jsonls")
         end
     },
     {
