@@ -57,12 +57,12 @@ return {
             })
 
             vim.lsp.config("r_language_server", {
-                cmd = { "R", "--no-echo", "-e", "options(lintr.linter_file = '.lintr'); languageserver::run()" },
-                root_dir = vim.fs.root(0, { ".lintr", ".git", "DESCRIPTION" }),
+                root_dir = vim.fs.root(0, {".lintr", ".git", "DESCRIPTION", "*.Rproj"}),
                 settings = {
                     r = {
                         lsp = {
-                            lintr_options = "list(indentation_linter = indentation_linter(spaces = 2))",
+                            diagnostics = false,
+                            lintr_options = "list(indentation_linter = NULL, line_length_linter = NULL)",
                         },
                     },
                 },
