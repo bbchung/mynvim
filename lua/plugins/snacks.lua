@@ -17,7 +17,7 @@ return {
             picker = {
                 enabled = true,
                 layout = {
-                    preview = false, -- 徹底關閉預覽
+                    hidden = { "preview" },
                 },
             },
             quickfile = { enabled = true },
