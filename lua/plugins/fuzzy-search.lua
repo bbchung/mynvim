@@ -1,5 +1,42 @@
 return {
     {
+        "folke/snacks.nvim",
+        priority = 1000,
+        lazy = false,
+        ---@type snacks.Config
+        opts = {
+            bigfile = { enabled = true },
+            dashboard = { enabled = false },
+            explorer = { enabled = false },
+            indent = { enabled = true },
+            input = { enabled = true },
+            notifier = {
+                enabled = true,
+                timeout = 3000,
+            },
+            picker = {
+                enabled = true,
+                layout = {
+                    preview = false, -- 徹底關閉預覽
+                },
+            },
+            quickfile = { enabled = true },
+            scope = { enabled = true },
+            scroll = { enabled = false },
+            statuscolumn = { enabled = false },
+            words = { enabled = false },
+            styles = {
+                notification = {
+                    -- wo = { wrap = true } -- Wrap notifications
+                }
+            }
+        },
+        keys = {
+            { "<leader>b", function() Snacks.picker.buffers() end, desc = "Buffers" },
+            { "<leader>f", function() Snacks.picker.files() end,   desc = "Find Files" },
+        },
+    },
+    {
         "liuchengxu/vim-clap",
         build = ":Clap install-binary", -- builds the Rust binary after install
         enabled = false,
@@ -64,6 +101,7 @@ return {
     },
     {
         'nvim-telescope/telescope.nvim',
+        enabled = false,
         dependencies = {
             { 'nvim-lua/plenary.nvim' },
             { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },

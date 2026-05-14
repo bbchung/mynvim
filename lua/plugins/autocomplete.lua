@@ -58,9 +58,8 @@ return {
     {
         'saghen/blink.cmp',
         enabled = true,
-        dependencies = { 'L3MON4D3/LuaSnip' },
-        build = 'cargo build --release',
-
+        dependencies = { 'L3MON4D3/LuaSnip', 'saghen/blink.lib' },
+        build = function() require('blink.cmp').build():wait(60000) end,
         opts = {
             snippets = {
                 preset = 'luasnip',
@@ -83,9 +82,9 @@ return {
             sources = {
                 default = { 'lsp', 'path', 'snippets', 'buffer' },
             },
-            -- cmdline = {
-            --     enabled = false,
-            -- },
+            cmdline = {
+                enabled = false,
+            },
             fuzzy = { implementation = "prefer_rust_with_warning" }
         },
     },
