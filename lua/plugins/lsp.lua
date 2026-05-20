@@ -6,10 +6,6 @@ return {
                 return diagnostic.user_data and diagnostic.user_data.lsp or diagnostic
             end
 
-            local function warn_or_error(diagnostic)
-                return diagnostic.severity == vim.diagnostic.severity.ERROR or diagnostic.severity == vim.diagnostic.severity.WARN
-            end
-
             local function buffer_range(bufnr)
                 local line_count = vim.api.nvim_buf_line_count(bufnr)
                 local last_line = vim.api.nvim_buf_get_lines(bufnr, line_count - 1, line_count, false)[1] or ""
@@ -41,7 +37,7 @@ return {
                 return -1
             end
 
-            local function apply_code_action(client, action)
+            local function apply_code_action(bufnr, client, action)
                 local applied = false
 
                 if action.edit then
@@ -50,15 +46,63 @@ return {
                 end
 
                 if action.command then
-                    if type(action.command) == "table" then
-                        vim.lsp.buf.execute_command(action.command)
-                    else
-                        vim.lsp.buf.execute_command(action)
-                    end
+                    local command = type(action.command) == "table" and action.command or action
+                    client:exec_cmd(command, { bufnr = bufnr })
                     applied = true
                 end
 
                 return applied
+            end
+
+            local function is_command(action)
+                return type(action.title) == "string" and type(action.command) == "string"
+            end
+
+            local function resolve_actions(bufnr, actions, callback)
+                if #actions == 0 then
+                    callback(actions)
+                    return
+                end
+
+                local pending = #actions
+                local resolved = {}
+
+                local function done(index, item, action)
+                    if action and (action.edit or action.command) then
+                        resolved[index] = { client = item.client, action = action }
+                    end
+
+                    pending = pending - 1
+                    if pending > 0 then
+                        return
+                    end
+
+                    local compact = {}
+                    for resolved_index = 1, #actions do
+                        local resolved_item = resolved[resolved_index]
+                        if resolved_item then
+                            table.insert(compact, resolved_item)
+                        end
+                    end
+
+                    callback(compact)
+                end
+
+                for index, item in ipairs(actions) do
+                    local action = item.action
+                    if is_command(action) or (action.edit and action.command) or not item.client:supports_method("codeAction/resolve") then
+                        done(index, item, action)
+                    else
+                        item.client:request("codeAction/resolve", action, function(err, resolved_action)
+                            if err then
+                                done(index, item, action)
+                                return
+                            end
+
+                            done(index, item, resolved_action)
+                        end, bufnr)
+                    end
+                end
             end
 
             local function request_code_actions(bufnr, diagnostics, only, callback)
@@ -81,7 +125,7 @@ return {
                     local client = vim.lsp.get_client_by_id(response.context.client_id)
                     if client then
                         for _, action in ipairs(response.result or {}) do
-                            if action.edit or action.command then
+                            if not action.disabled and (action.edit or action.command or client:supports_method("codeAction/resolve")) then
                                 table.insert(actions, { client = client, action = action })
                             end
                         end
@@ -108,48 +152,50 @@ return {
                 local diagnostics = {}
 
                 for _, diagnostic in ipairs(vim.diagnostic.get(bufnr)) do
-                    if warn_or_error(diagnostic) then
-                        table.insert(diagnostics, lsp_diagnostic(diagnostic))
-                    end
-                end
-
-                if #diagnostics == 0 then
-                    vim.notify("No error/warning diagnostics in current buffer", vim.log.levels.INFO)
-                    return
+                    table.insert(diagnostics, lsp_diagnostic(diagnostic))
                 end
 
                 request_code_actions(bufnr, diagnostics, { "source.fixAll" }, function(fix_all_results)
                     local actions = collect_actions(fix_all_results)
 
                     if #actions == 0 then
+                        if #diagnostics == 0 then
+                            vim.notify("No LSP diagnostics or fix-all actions in current buffer", vim.log.levels.INFO)
+                            return
+                        end
+
                         request_code_actions(bufnr, diagnostics, { "quickfix" }, function(quickfix_results)
                             local uri = vim.uri_from_bufnr(bufnr)
                             actions = preferred_or_all(collect_actions(quickfix_results))
 
-                            table.sort(actions, function(lhs, rhs)
-                                return action_start_line(lhs.action, uri) > action_start_line(rhs.action, uri)
-                            end)
+                            resolve_actions(bufnr, actions, function(resolved_actions)
+                                table.sort(resolved_actions, function(lhs, rhs)
+                                    return action_start_line(lhs.action, uri) > action_start_line(rhs.action, uri)
+                                end)
 
-                            local applied = 0
-                            for _, item in ipairs(actions) do
-                                if apply_code_action(item.client, item.action) then
-                                    applied = applied + 1
+                                local applied = 0
+                                for _, item in ipairs(resolved_actions) do
+                                    if apply_code_action(bufnr, item.client, item.action) then
+                                        applied = applied + 1
+                                    end
                                 end
-                            end
 
-                            vim.notify(string.format("Applied %d LSP quick fixes", applied), vim.log.levels.INFO)
+                                vim.notify(string.format("Applied %d LSP quick fixes", applied), vim.log.levels.INFO)
+                            end)
                         end)
                         return
                     end
 
-                    local applied = 0
-                    for _, item in ipairs(actions) do
-                        if apply_code_action(item.client, item.action) then
-                            applied = applied + 1
+                    resolve_actions(bufnr, actions, function(resolved_actions)
+                        local applied = 0
+                        for _, item in ipairs(resolved_actions) do
+                            if apply_code_action(bufnr, item.client, item.action) then
+                                applied = applied + 1
+                            end
                         end
-                    end
 
-                    vim.notify(string.format("Applied %d LSP fix-all actions", applied), vim.log.levels.INFO)
+                        vim.notify(string.format("Applied %d LSP fix-all actions", applied), vim.log.levels.INFO)
+                    end)
                 end)
             end
 
