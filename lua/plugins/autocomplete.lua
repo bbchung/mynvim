@@ -59,7 +59,9 @@ return {
         'saghen/blink.cmp',
         enabled = true,
         dependencies = { 'L3MON4D3/LuaSnip', 'saghen/blink.lib' },
-        build = function() require('blink.cmp').build():wait(60000) end,
+        build = function()
+            require('blink.cmp').build():pwait()
+        end,
         opts = {
             snippets = {
                 preset = 'luasnip',
