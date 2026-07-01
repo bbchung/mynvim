@@ -59,12 +59,12 @@ return {
         "saghen/blink.cmp",
         enabled = true,
         dependencies = {
-            'saghen/blink.lib',
             --  "L3MON4D3/LuaSnip",
+            'saghen/blink.lib',
             'rafamadriz/friendly-snippets',
         },
         build = function()
-            require('blink.cmp').build({ force = true }):pwait()
+            require("blink.cmp").build({ force = true, dev = true }):pwait()
         end,
         opts = {
             snippets = {

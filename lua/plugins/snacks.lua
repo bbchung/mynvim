@@ -16,6 +16,10 @@ return {
             },
             picker = {
                 enabled = true,
+                exclude = {
+                    ".git",
+                    "third_party",
+                },
                 layout = {
                     hidden = { "preview" },
                 },
