@@ -99,6 +99,11 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	command = "startinsert",
 })
 
+-- Set tmux pane title to "nvim"
+if vim.env.TMUX then
+	vim.fn.system({ "tmux", "select-pane", "-T", "nvim" })
+end
+
 if vim.o.diff then
 	vim.opt.readonly = false
 end
