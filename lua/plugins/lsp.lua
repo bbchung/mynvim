@@ -1,6 +1,7 @@
 return {
     {
         "neovim/nvim-lspconfig",
+        dependencies = { "mason-org/mason.nvim" },
         config = function()
             local function lsp_diagnostic(diagnostic)
                 return diagnostic.user_data and diagnostic.user_data.lsp or diagnostic
@@ -229,7 +230,12 @@ return {
             })
 
             vim.lsp.config("r_language_server", {
-                root_dir = vim.fs.root(0, { ".lintr", ".git", "DESCRIPTION", "*.Rproj" }),
+                root_dir = function(bufnr, on_dir)
+                    local root = vim.fs.root(bufnr, function(name)
+                        return name == ".lintr" or name == ".git" or name == "DESCRIPTION" or name:match("%.Rproj$")
+                    end)
+                    on_dir(root or vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr)))
+                end,
                 settings = {
                     r = {
                         lsp = {
@@ -251,24 +257,8 @@ return {
                         return
                     end
 
-                    if client.server_capabilities.documentHighlightProvider then
-                        local group = vim.api.nvim_create_augroup("HighlightCursorGroup", { clear = false })
-                        vim.api.nvim_clear_autocmds({ group = group, buffer = args.buf })
-
-                        local timer = nil
-                        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "TextChanged", "TextChangedI" }, {
-                            group = group,
-                            buffer = args.buf,
-                            callback = function()
-                                vim.lsp.buf.clear_references()
-                                if timer then
-                                    vim.fn.timer_stop(timer)
-                                end
-                                timer = vim.fn.timer_start(200, function()
-                                    vim.lsp.buf.document_highlight()
-                                end)
-                            end,
-                        })
+                    if client:supports_method("textDocument/documentHighlight", args.buf) then
+                        require("config.lsp-highlight").attach(args.buf)
                     end
 
                     if client.name == "clangd" then

@@ -50,35 +50,60 @@ return {
                 run_gtags_search(selected_text)
             end, { silent = true })
 
-            local current_job = nil
-            local queued_job = nil -- only keep the last queued request
+            local queue = {}
+            local pending = {}
+            local running = false
 
-            local function run_async_singleton(cmd)
-                local function start_job()
-                    current_job = vim.fn.jobstart(cmd, {
-                        on_exit = function(_, _, _)
-                            current_job = nil
-                            if queued_job then
-                                local next_job = queued_job
-                                queued_job = nil
-                                next_job()
-                            end
-                        end,
-                    })
+            local function start_next()
+                if running or #queue == 0 then
+                    return
                 end
-
-                if current_job then
-                    queued_job = start_job
-                else
-                    start_job()
+                local job = table.remove(queue, 1)
+                pending[job.key] = nil
+                running = true
+                local id = vim.fn.jobstart(job.cmd, {
+                    cwd = job.cwd,
+                    on_exit = function()
+                        running = false
+                        start_next()
+                    end,
+                })
+                if id <= 0 then
+                    running = false
+                    vim.notify("Gtags: failed to start global", vim.log.levels.WARN)
+                    start_next()
                 end
             end
 
-            run_async_singleton({ "global", "-uv" })
+            local function update_tags(file)
+                if vim.fn.executable("global") ~= 1 then
+                    return
+                end
+                local path = file and vim.fs.dirname(file) or vim.fn.getcwd()
+                local database = vim.fs.find("GTAGS", { path = path, upward = true, type = "file" })[1]
+                if not database then
+                    return
+                end
+                local root = vim.fs.dirname(database)
+                local key = root .. "\n" .. (file or "")
+                if pending[key] then
+                    return
+                end
+                pending[key] = true
+                queue[#queue + 1] = {
+                    key = key,
+                    cwd = root,
+                    cmd = file and { "global", "-u", "--single-update", file } or { "global", "-uv" },
+                }
+                start_next()
+            end
+
+            update_tags()
             vim.api.nvim_create_autocmd("BufWritePost", {
+                group = vim.api.nvim_create_augroup("GtagsUpdate", { clear = true }),
                 pattern = { "*.c", "*.cpp", "*.cc", "*.h", "*.hpp" },
                 callback = function(args)
-                    run_async_singleton({ "global", "-u", "--single-update", args.file })
+                    update_tags(args.file)
                 end,
             })
         end,

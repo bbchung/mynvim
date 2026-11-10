@@ -29,7 +29,7 @@ return {
 	},
 	{
 		"hat0uma/csvview.nvim",
-		ft = "csv",
+		ft = { "csv", "tsv" },
 		opts = {
 			parser = { comments = { "#", "//" } },
 			view = {

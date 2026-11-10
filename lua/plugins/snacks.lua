@@ -71,7 +71,8 @@ return {
                 function()
                     Snacks.picker.grep_word()
                 end,
-                desc = "搜尋游標所在的單字",
+                mode = { "n", "x" },
+                desc = "搜尋游標單字或選取文字",
             },
         },
     },

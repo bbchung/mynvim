@@ -1,6 +1,7 @@
 return {
     {
         "L3MON4D3/LuaSnip",
+        lazy = true,
         dependencies = { "rafamadriz/friendly-snippets", "honza/vim-snippets" },
         config = function()
             require("luasnip.loaders.from_snipmate").lazy_load()
@@ -58,10 +59,11 @@ return {
     {
         "saghen/blink.cmp",
         enabled = true,
+        event = "InsertEnter",
         dependencies = {
-            --  "L3MON4D3/LuaSnip",
-            'saghen/blink.lib',
-            'rafamadriz/friendly-snippets',
+            "L3MON4D3/LuaSnip",
+            "saghen/blink.lib",
+            "rafamadriz/friendly-snippets",
         },
         build = function()
             require("blink.cmp").build({ force = true, dev = true }):pwait()

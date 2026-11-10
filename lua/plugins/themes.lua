@@ -1,7 +1,7 @@
 return {
 	{
 		"vague2k/vague.nvim",
-		lazy = false,
+		lazy = true,
 		priority = 1000,
 		config = function()
 			require("vague").setup({
@@ -12,14 +12,14 @@ return {
 	},
 	{
 		"folke/tokyonight.nvim",
-		lazy = false,
+		lazy = true,
 		priority = 1000,
 	},
 	{
 		"sainnhe/gruvbox-material",
-		lazy = false,
+		lazy = true,
 		priority = 1000,
-		config = function()
+		init = function()
 			vim.g.gruvbox_material_background = "hard"
 			vim.g.gruvbox_material_enable_italic = 0
 			vim.g.gruvbox_material_disable_italic_comment = 0
@@ -35,7 +35,7 @@ return {
 		"sainnhe/everforest",
 		lazy = false,
 		priority = 1000,
-		config = function()
+		init = function()
 			vim.g.everforest_background = "medium"
 			vim.g.everforest_enable_italic = 0
 			vim.g.everforest_disable_italic_comment = 1
