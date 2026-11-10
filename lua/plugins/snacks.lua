@@ -6,7 +6,16 @@ return {
         ---@type snacks.Config
         opts = {
             bigfile = { enabled = false },
-            dashboard = { enabled = false },
+            dashboard = {
+                enabled = true,
+                sections = {
+                    { section = "keys", padding = 1 },
+                    { title = "Recent Files", padding = 1 },
+                    { section = "recent_files", limit = 8, padding = 1 },
+                    { title = "Recent Files in Current Directory", padding = 1 },
+                    { section = "recent_files", cwd = true, limit = 8, padding = 1 },
+                },
+            },
             explorer = { enabled = false },
             indent = { enabled = false },
             input = { enabled = true },

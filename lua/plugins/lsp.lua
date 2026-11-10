@@ -16,33 +16,6 @@ return {
                 }
             end
 
-            local function action_start_line(action, uri)
-                local edit = action.edit
-                if not edit then
-                    return -1
-                end
-
-                local changes = edit.changes and edit.changes[uri]
-                if changes and changes[1] and changes[1].range then
-                    return changes[1].range.start.line
-                end
-
-                for _, change in ipairs(edit.documentChanges or {}) do
-                    local text_edits = change.edits
-                    if
-                        change.textDocument
-                        and change.textDocument.uri == uri
-                        and text_edits
-                        and text_edits[1]
-                        and text_edits[1].range
-                    then
-                        return text_edits[1].range.start.line
-                    end
-                end
-
-                return -1
-            end
-
             local function apply_code_action(bufnr, client, action)
                 local applied = false
 
@@ -148,24 +121,14 @@ return {
                         for _, action in ipairs(response.result or {}) do
                             if
                                 not action.disabled
+                                and type(action.kind) == "string"
+                                and (action.kind == "source.fixAll" or vim.startswith(action.kind, "source.fixAll."))
                                 and (action.edit or action.command or client:supports_method("codeAction/resolve"))
                             then
                                 table.insert(actions, { client = client, action = action })
                             end
                         end
                     end
-                end
-
-                return actions
-            end
-
-            local function preferred_or_all(actions)
-                local preferred = vim.tbl_filter(function(item)
-                    return item.action.isPreferred
-                end, actions)
-
-                if #preferred > 0 then
-                    return preferred
                 end
 
                 return actions
@@ -183,23 +146,7 @@ return {
                     local actions = collect_actions(fix_all_results)
 
                     if #actions == 0 then
-                        if #diagnostics == 0 then
-                            vim.notify("No LSP diagnostics or fix-all actions in current buffer", vim.log.levels.INFO)
-                            return
-                        end
-
-                        request_code_actions(bufnr, diagnostics, { "quickfix" }, function(quickfix_results)
-                            local uri = vim.uri_from_bufnr(bufnr)
-                            actions = preferred_or_all(collect_actions(quickfix_results))
-
-                            resolve_actions(bufnr, actions, function(resolved_actions)
-                                table.sort(resolved_actions, function(lhs, rhs)
-                                    return action_start_line(lhs.action, uri) > action_start_line(rhs.action, uri)
-                                end)
-
-                                apply_code_actions(bufnr, resolved_actions, "quick fixes")
-                            end)
-                        end)
+                        vim.notify("No LSP fix-all actions in current buffer", vim.log.levels.INFO)
                         return
                     end
 

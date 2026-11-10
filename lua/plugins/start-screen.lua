@@ -21,7 +21,7 @@ return {
 	},
 	{
 		"goolord/alpha-nvim",
-		enabled = true,
+		enabled = false,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			local startify = require("alpha.themes.startify")
