@@ -75,9 +75,13 @@ vim.api.nvim_create_autocmd("TermOpen", {
     command = "startinsert",
 })
 
--- Set tmux pane title to "nvim"
+-- Set the tmux pane title without waiting for the client process.
 if vim.env.TMUX then
-    vim.fn.system({ "tmux", "select-pane", "-T", "nvim" })
+    pcall(vim.system, { "tmux", "select-pane", "-T", "nvim" }, {
+        detach = true,
+        stdout = false,
+        stderr = false,
+    })
 end
 
 if vim.o.diff then

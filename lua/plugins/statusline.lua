@@ -3,7 +3,7 @@ return {
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			require("lualine").setup({
+			local opts = {
 				options = {
 					icons_enabled = false,
 					theme = "auto",
@@ -70,7 +70,17 @@ return {
 				winbar = {},
 				inactive_winbar = {},
 				extensions = {},
-			})
+			}
+			local function setup()
+				require("lualine").setup(opts)
+			end
+
+			if vim.v.vim_did_enter == 1 or vim.g.colors_name then
+				setup()
+			else
+				-- Initialize once with the startup colorscheme already active.
+				vim.api.nvim_create_autocmd("ColorScheme", { once = true, callback = setup })
+			end
 		end,
 	},
 }

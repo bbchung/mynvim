@@ -35,6 +35,7 @@ return {
                     },
                     include_surrounding_whitespace = false,
                 },
+                move = { set_jumps = true },
             })
 
             for _, mapping in ipairs({
@@ -49,10 +50,6 @@ return {
                     require("nvim-treesitter-textobjects.select").select_textobject(capture, query_group)
                 end)
             end
-
-            require("nvim-treesitter-textobjects").setup({
-                move = { set_jumps = true },
-            })
 
             for _, mapping in ipairs({
                 { "]m", "goto_next_start", "@function.outer", "textobjects" },
